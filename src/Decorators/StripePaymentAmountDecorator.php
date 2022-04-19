@@ -79,7 +79,9 @@ class StripePaymentAmountDecorator implements PaymentAmount
      */
     public function revertFromPaymentSystemUnits(): float
     {
-        return (float) ($this->money->getAmount() / $this->multiplier);
+        return (float) (
+            (int) $this->money->getAmount() / $this->multiplier
+        );
     }
 
     /**
