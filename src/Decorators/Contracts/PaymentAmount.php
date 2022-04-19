@@ -27,12 +27,12 @@ interface PaymentAmount
      *
      * @return int
      */
-    public function convertToPaymentSystemUnits(): int;
+    public function toPaymentSystemUnits(): int;
 
     /**
      * Revert from "smallest common currency units".
      *
      * @return float
      */
-    public function revertFromPaymentSystemUnits(): float;
+    public function fromPaymentSystemUnits(): float;
 }

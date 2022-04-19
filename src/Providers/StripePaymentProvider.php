@@ -150,7 +150,7 @@ class StripePaymentProvider implements PaymentProviderContract
     public function offsessionCharge(OffsessionChargeData $data): PaymentIntent
     {
         $intent_params = collect([
-            'amount'               => $data->payment_amount->convertToPaymentSystemUnits(),
+            'amount'               => $data->payment_amount->getAmount(),
             'currency'             => $data->payment_amount->getCurrency()->getCode(),
             'customer'             => $data->model->stripe_id,
             'payment_method_types' => ['card'],
