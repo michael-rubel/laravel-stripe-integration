@@ -29,11 +29,11 @@ class TestCase extends Orchestra
     {
         if (isset($params['data'])) {
             return collect([
-                'amount'                      => $params['data']->payment_amount->getAmount(),
-                'currency'                    => $params['data']->payment_amount->getCurrency()->getCode(),
-                'description'                 => $params['data']?->options['description'],
-                'payment_method'              => $params['data']->payment_method,
-                'status'                      => 'succeeded',
+                'amount'         => $params['data']->payment_amount->getAmount(),
+                'currency'       => $params['data']->payment_amount->getCurrency()->getCode(),
+                'description'    => $params['data']?->options['description'],
+                'payment_method' => $params['data']->payment_method,
+                'status'         => 'succeeded',
             ]);
         }
 
@@ -49,10 +49,10 @@ class TestCase extends Orchestra
     {
         return isset($params['data'])
             ? collect([
-                'amount'          => $params['data']->payment_amount->getAmount(),
-                'currency'        => $params['data']->payment_amount->getCurrency()->getCode(),
-                'description'     => $params['data']?->intent_params['description'],
-                'status'          => 'succeeded',
+                'amount'      => $params['data']->payment_amount->getAmount(),
+                'currency'    => $params['data']->payment_amount->getCurrency()->getCode(),
+                'description' => $params['data']?->intent_params['description'],
+                'status'      => 'succeeded',
             ])
             : new Collection;
     }
