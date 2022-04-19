@@ -132,8 +132,8 @@ class StripePaymentProvider
     public function charge(StripeChargeData $data): ?Payment
     {
         return $data->model->charge(
-            $data->paymentAmount->getAmount(),
-            $data->paymentMethod->id,
+            $data->payment_amount->getAmount(),
+            $data->payment_method->id,
             $data->options
         );
     }
@@ -149,8 +149,8 @@ class StripePaymentProvider
     public function offsessionCharge(OffsessionChargeData $data): PaymentIntent
     {
         $intent_params = collect([
-            'amount'               => $data->paymentAmount->convertToPaymentSystemUnits(),
-            'currency'             => $data->paymentAmount->getCurrency()->getCode(),
+            'amount'               => $data->payment_amount->convertToPaymentSystemUnits(),
+            'currency'             => $data->payment_amount->getCurrency()->getCode(),
             'customer'             => $data->model->stripe_id,
             'payment_method_types' => ['card'],
         ])->merge($data->intent_params)->toArray();
