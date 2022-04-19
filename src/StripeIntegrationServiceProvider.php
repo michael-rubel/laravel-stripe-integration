@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace MichaelRubel\PackageTemplate;
+namespace MichaelRubel\StripeIntegration;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class TemplateServiceProvider extends PackageServiceProvider
+class StripeIntegrationServiceProvider extends PackageServiceProvider
 {
     /**
      * Configure the package.
@@ -18,8 +18,6 @@ class TemplateServiceProvider extends PackageServiceProvider
      */
     public function configurePackage(Package $package): void
     {
-        $package
-            ->name('laravel-package-template')
-            ->hasConfigFile();
+        $package->name('laravel-stripe-integration');
     }
 }
