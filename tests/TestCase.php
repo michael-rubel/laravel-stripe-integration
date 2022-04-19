@@ -40,11 +40,6 @@ class TestCase extends Orchestra
         return new Collection;
     }
 
-    /**
-     * @param array $params
-     *
-     * @return Collection
-     */
     public function offsessionCharge(array $params): Collection
     {
         return isset($params['data'])
