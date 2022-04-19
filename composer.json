@@ -52,7 +52,7 @@
     "extra": {
         "laravel": {
             "providers": [
-              "StripeIntegrationServiceProvider"
+              "MichaelRubel\\StripeIntegration\\StripeIntegrationServiceProvider"
             ]
         }
     },
