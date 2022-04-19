@@ -8,6 +8,13 @@ parameters:
 
     level: max
 
+    ignoreErrors:
+        - '#Access to an undefined property Laravel\\Cashier\\PaymentMethod\|Stripe\\PaymentMethod\:\:\$id\.#'
+        - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:#'
+        - '#Parameter \#1 \$config of class Stripe\\StripeClient constructor expects array\<string, mixed\>\|string, mixed given\.#'
+        - '#Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$stripe_id\.#'
+        - '#Unable to resolve the template type TValue in call to function collect#'
+
     checkMissingIterableValueType: false
 
     reportUnmatchedIgnoredErrors: false
