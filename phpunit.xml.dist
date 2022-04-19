@@ -33,6 +33,9 @@
             <clover outputFile="build/logs/clover.xml"/>
         </report>
     </coverage>
+    <php>
+        <env name="STRIPE_SECRET" value="sk_test_test"/>
+    </php>
     <logging>
         <junit outputFile="build/report.junit.xml"/>
     </logging>
