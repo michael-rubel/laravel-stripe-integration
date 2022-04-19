@@ -19,7 +19,9 @@ class StripeIntegrationServiceProvider extends PackageServiceProvider
      */
     public function configurePackage(Package $package): void
     {
-        $package->name('laravel-stripe-integration');
+        $package
+            ->name('laravel-stripe-integration')
+            ->hasConfigFile();
     }
 
     /**

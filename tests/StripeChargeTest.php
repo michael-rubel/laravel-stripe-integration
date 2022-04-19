@@ -37,7 +37,7 @@ class StripeChargeTest extends TestCase
 
         $this->be($this->user);
 
-        config(['stripe.secret' => 'sk_test_test']);
+        config(['stripe-integration.secret' => 'sk_test_test']);
 
         bind(PaymentAmount::class)->to(StripePaymentAmountDecorator::class);
         bind(PaymentProviderContract::class)->singleton(StripePaymentProvider::class);

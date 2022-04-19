@@ -35,6 +35,11 @@ composer require michael-rubel/laravel-stripe-integration
 // Coming soon...
 ```
 
+Publish the config:
+```bash
+php artisan vendor:publish --tag="stripe-integration-config"
+```
+
 ## Testing
 ```bash
 composer test

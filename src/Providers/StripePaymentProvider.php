@@ -35,7 +35,7 @@ class StripePaymentProvider implements PaymentProviderContract
     public function __construct()
     {
         $this->stripeClient = new StripeClient(
-            config('stripe.secret')
+            config('stripe-integration.secret')
         );
     }
 
