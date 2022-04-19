@@ -20,12 +20,12 @@ class StripeChargeData extends DataTransferObject
     /**
      * @var PaymentAmount
      */
-    public PaymentAmount $paymentAmount;
+    public PaymentAmount $payment_amount;
 
     /**
      * @var CashierPaymentMethod|PaymentMethod
      */
-    public CashierPaymentMethod|PaymentMethod $paymentMethod;
+    public CashierPaymentMethod|PaymentMethod $payment_method;
 
     /**
      * @var array

@@ -18,7 +18,7 @@ class OffsessionChargeData extends DataTransferObject
     /**
      * @var PaymentAmount
      */
-    public PaymentAmount $paymentAmount;
+    public PaymentAmount $payment_amount;
 
     /**
      * @var array
