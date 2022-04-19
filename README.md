@@ -1,4 +1,4 @@
-![Laravel Stripe Integration](https://user-images.githubusercontent.com/37669560/161713670-e6d795c0-9ddf-4458-9eb5-d596a5b9399c.png)
+![Laravel Stripe Integration](https://user-images.githubusercontent.com/37669560/163988680-2172332f-a735-4429-adc2-7f1bedac130d.png)
 
 # Laravel Stripe Integration
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/michael-rubel/laravel-stripe-integration.svg?style=flat-square&logo=packagist)](https://packagist.org/packages/michael-rubel/laravel-stripe-integration)
