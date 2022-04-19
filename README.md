@@ -17,8 +17,9 @@ Currently, supports only these types of operations:
 - Offsession charge;
 
 Under the hood, uses the following dependencies:
+- `moneyphp/money` - Fowler's Money pattern
 - `laravel/cashier` - to easily operate on models and for future improvements
-- `spatie/data-transfer-object` - for passing data to the provider methods, etc.
+- `spatie/data-transfer-object` - passing data to the provider methods, etc.
 - `michael-rubel/laravel-enhanced-container` - for method binding (package overridability and testing)
 
 ## #StandWithUkraine
