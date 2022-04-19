@@ -11,6 +11,7 @@ use Laravel\Cashier\Payment;
 use Laravel\Cashier\PaymentMethod as CashierPaymentMethod;
 use MichaelRubel\StripeIntegration\DataTransferObjects\OffsessionChargeData;
 use MichaelRubel\StripeIntegration\DataTransferObjects\StripeChargeData;
+use MichaelRubel\StripeIntegration\Providers\Contracts\PaymentProviderContract;
 use Money\Currency;
 use Stripe\Customer;
 use Stripe\Exception\ApiErrorException;
@@ -19,7 +20,7 @@ use Stripe\PaymentMethod;
 use Stripe\SetupIntent;
 use Stripe\StripeClient;
 
-class StripePaymentProvider
+class StripePaymentProvider implements PaymentProviderContract
 {
     use Macroable;
 
