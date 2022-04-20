@@ -8,12 +8,12 @@
 [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/michael-rubel/laravel-stripe-integration/run-tests/main?style=flat-square&label=tests&logo=github)](https://github.com/michael-rubel/laravel-stripe-integration/actions)
 [![PHPStan](https://img.shields.io/github/workflow/status/michael-rubel/laravel-stripe-integration/phpstan/main?style=flat-square&label=larastan&logo=laravel)](https://github.com/michael-rubel/laravel-stripe-integration/actions)
 
-This package represents ready to use Stripe Payment Provider class and other related stuff.
+This package represents ready-to-use integration with Stripe.
 
 The package requires PHP `^8.x` and Laravel `^8.71` or `^9.0`.
 
-### Features supported
-- Basic charge
+### Features currently supported
+- Basic card charge
 - "Off-session" charge
 
 ### Roadmap
@@ -40,18 +40,77 @@ Publish the config and fill Stripe keys in `.env`:
 php artisan vendor:publish --tag="stripe-integration-config"
 ```
 
-## Usage
+## Example usage
 ```php
-// Bind contract to the implementation:
-bind(PaymentProviderContract::class)->to(StripePaymentProvider::class);
+/*
+|--------------------------------------------------------------------------
+| Notes
+|--------------------------------------------------------------------------
+| Do not just copy & paste the code below. It's only a suggested flow
+| definition. You should change the code based on your needs.
+| If you wonder what is the `CallProxy`, it is used for
+| method binding, i.e. you can use this for mocks.
+|
+| Check the documentation: https://github.com/michael-rubel/laravel-enhanced-container
+*/
 
-// Resolve bound implementation using the contract:
-call(PaymentProviderContract::class)->yourMethod();
-```
+class StripeCharge implements Action
+{
+    /**
+     * @var CallProxy
+     */
+    private CallProxy $paymentProvider;
 
-## Example
-```php
-// Coming soon...
+    /**
+     * @param PaymentProviderContract $paymentProvider
+     */
+    public function __construct(PaymentProviderContract $paymentProvider)
+    {
+        $this->paymentProvider = call($paymentProvider);
+    }
+
+    /**
+     * Execute the job.
+     *
+     * @return mixed
+     */
+    public function handle(): mixed
+    {
+        $currency = new Currency('USD');
+
+        $this->paymentProvider->configureCashierCurrency($currency);
+
+        $customer = $this->paymentProvider->prepareCustomer(
+            auth()->user()
+        );
+
+        $paymentMethod = $this->paymentProvider->updatePaymentMethod(
+            auth()->user(),
+            'payment_method' // payment_method string from the client library
+        );
+
+        $this->paymentProvider->attachPaymentMethodToCustomer(
+            $paymentMethod,
+            $customer
+        );
+
+        $amount = new StripePaymentAmountDecorator(
+            1000,
+            $currency->getCode()
+        );
+
+        $chargeData = new StripeChargeData(
+            model: auth()->user(),
+            payment_amount: $amount,
+            payment_method: $paymentMethod,
+            options: ['description' => 'Your description.'],
+        );
+
+        $payment = $this->paymentProvider->charge($chargeData);
+
+        // Now you can check $payment->status
+    }
+}
 ```
 
 ## Testing
