@@ -31,7 +31,7 @@ class StripePaymentAmountDecorator implements PaymentAmount
         }
 
         if (empty($this->currency)) {
-            throw new \InvalidArgumentException('The currency code cannot be empty.');
+            throw new \InvalidArgumentException('Currency code should not be empty string.');
         }
 
         // Configures the payment amount decorator.
