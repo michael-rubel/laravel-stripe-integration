@@ -67,7 +67,7 @@ class StripePaymentProvider implements PaymentProviderContract
             'usage' => 'off_session',
         ])->merge($options)->toArray();
 
-        return $model->createSetupIntent($options);
+        return call($model)->createSetupIntent($options);
     }
 
     /**
@@ -79,7 +79,7 @@ class StripePaymentProvider implements PaymentProviderContract
      */
     public function prepareCustomer(Model $model): Customer
     {
-        return $model->createOrGetStripeCustomer();
+        return call($model)->createOrGetStripeCustomer();
     }
 
     /**
@@ -92,7 +92,7 @@ class StripePaymentProvider implements PaymentProviderContract
      */
     public function updatePaymentMethod(Model $model, PaymentMethod|string $paymentMethod): CashierPaymentMethod
     {
-        return $model->updateDefaultPaymentMethod($paymentMethod);
+        return call($model)->updateDefaultPaymentMethod($paymentMethod);
     }
 
     /**
@@ -103,19 +103,19 @@ class StripePaymentProvider implements PaymentProviderContract
      * @param array                              $params
      * @param array                              $options
      *
-     * @throws ApiErrorException
+     * @return PaymentMethod
      */
     public function attachPaymentMethodToCustomer(
         PaymentMethod|CashierPaymentMethod $paymentMethod,
         Customer $customer,
         array $params = [],
         array $options = []
-    ): void {
+    ): PaymentMethod {
         $params = collect([
             'customer' => $customer->id,
         ])->merge($params)->toArray();
 
-        $this->stripeClient->paymentMethods->attach(
+        return call($this->stripeClient->paymentMethods)->attach(
             $paymentMethod->id,
             $params,
             $options
@@ -132,7 +132,7 @@ class StripePaymentProvider implements PaymentProviderContract
      */
     public function charge(StripeChargeData $data): ?Payment
     {
-        return $data->model->charge(
+        return call($data->model)->charge(
             $data->payment_amount->getAmount(),
             $data->payment_method->id,
             $data->options
@@ -156,16 +156,16 @@ class StripePaymentProvider implements PaymentProviderContract
             'payment_method_types' => ['card'],
         ])->merge($data->intent_params)->toArray();
 
-        $paymentIntent = $this->stripeClient->paymentIntents->create(
+        $paymentIntent = call($this->stripeClient->paymentIntents)->create(
             $intent_params,
             $data->intent_options
         );
 
         $confirmation_params = collect([
-            'payment_method' => $data->model->defaultPaymentMethod()->id,
+            'payment_method' => call($data->model)->defaultPaymentMethod()->id,
         ])->merge($data->confirmation_params)->toArray();
 
-        return $this->stripeClient->paymentIntents->confirm(
+        return call($this->stripeClient->paymentIntents)->confirm(
             $paymentIntent->id,
             $confirmation_params,
             $data->confirmation_options
