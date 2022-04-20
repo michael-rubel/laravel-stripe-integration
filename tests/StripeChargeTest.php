@@ -93,7 +93,7 @@ class StripeChargeTest extends TestCase
             options: ['description' => 'Test Stripe Charge Description'],
         );
 
-        $payment = call(PaymentProviderContract::class)->charge($chargeData);
+        $payment = $this->paymentProvider->charge($chargeData);
 
         $this->assertStringContainsString('succeeded', $payment->status);
         $this->assertStringContainsString('Test Stripe Charge Description', $payment->description);
@@ -128,7 +128,7 @@ class StripeChargeTest extends TestCase
             intent_params: ['description' => 'Offsession Charge Description'],
         );
 
-        $payment = call(PaymentProviderContract::class)->offsessionCharge($chargeData);
+        $payment = $this->paymentProvider->offsessionCharge($chargeData);
 
         $this->assertStringContainsString('succeeded', $payment->status);
         $this->assertStringContainsString('Offsession Charge Description', $payment->description);
