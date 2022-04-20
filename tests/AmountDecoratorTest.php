@@ -10,12 +10,12 @@ class AmountDecoratorTest extends TestCase
     /** @test */
     public function testCanInstantiateDecorator()
     {
-        $decorator = new StripePaymentAmountDecorator(5000, 'usd');
+        $decorator = new StripePaymentAmountDecorator(5000, 'USD');
 
         $this->assertInstanceOf(Money::class, $decorator->money);
         $this->assertSame(500000, $decorator->getAmount());
         $this->assertSame(5000.0, $decorator->amount);
-        $this->assertSame('usd', $decorator->getCurrency()->getCode());
+        $this->assertSame('USD', $decorator->getCurrency()->getCode());
         $this->assertSame(100, $decorator->multiplier);
     }
 
