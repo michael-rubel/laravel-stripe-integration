@@ -30,6 +30,10 @@ class StripePaymentAmountDecorator implements PaymentAmount
             throw new \DivisionByZeroError('0 is forbidden.');
         }
 
+        if (empty($this->currency)) {
+            throw new \InvalidArgumentException('The currency code cannot be empty.');
+        }
+
         // Configures the payment amount decorator.
         // Used mainly for converting the payment amount
         // to payment-system friendly units.
