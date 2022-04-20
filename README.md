@@ -12,15 +12,19 @@ This package represents ready to use Stripe Payment Provider class and other rel
 
 The package requires PHP `^8.x` and Laravel `^8.71` or `^9.0`.
 
-Currently, supports only these types of operations:
-- Regular Stripe charge;
-- Offsession charge;
+### Features supported
+- Basic charge
+- "Off-session" charge
 
-Under the hood, uses the following dependencies:
-- `moneyphp/money` - Fowler's Money pattern
-- `laravel/cashier` - to easily operate on models and for future improvements
-- `spatie/data-transfer-object` - passing data to the provider methods, etc.
-- `michael-rubel/laravel-enhanced-container` - for method binding (package overridability and testing)
+### Roadmap
+- Stripe subscriptions support.
+
+The package rely on the following dependencies:
+- `stripe/stripe-php` - Stripe API library.
+- `laravel/cashier` - Laravel's helper for Stripe subscriptions, etc.
+- `moneyphp/money` - Fowler's Money pattern to store amount/currency data.
+- `spatie/data-transfer-object` - Passing data to the provider methods, etc.
+- `michael-rubel/laravel-enhanced-container` - Method binding (package extendability & testing)
 
 ## #StandWithUkraine
 [![SWUbanner](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-direct.svg)](https://github.com/vshymanskyy/StandWithUkraine/blob/main/docs/README.md)
@@ -31,14 +35,23 @@ Install the package using composer:
 composer require michael-rubel/laravel-stripe-integration
 ```
 
-## Usage
-```php
-// Coming soon...
-```
-
-Publish the config:
+Publish the config and fill Stripe keys in `.env`:
 ```bash
 php artisan vendor:publish --tag="stripe-integration-config"
+```
+
+## Usage
+```php
+// Bind contract to the implementation:
+bind(PaymentProviderContract::class)->to(StripePaymentProvider::class);
+
+// Resolve bound implementation using the contract:
+call(PaymentProviderContract::class)->yourMethod();
+```
+
+## Example
+```php
+// Coming soon...
 ```
 
 ## Testing
