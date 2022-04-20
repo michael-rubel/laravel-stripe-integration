@@ -14,6 +14,7 @@ parameters:
         - '#Parameter \#1 \$config of class Stripe\\StripeClient constructor expects array\<string, mixed\>\|string, mixed given\.#'
         - '#Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$stripe_id\.#'
         - '#Unable to resolve the template type TValue in call to function collect#'
+        - '#Parameter \#1 \$code of class Money\\Currency constructor expects non\-empty\-string, string given\.#'
 
     checkMissingIterableValueType: false
 
