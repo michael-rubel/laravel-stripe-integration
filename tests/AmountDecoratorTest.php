@@ -14,7 +14,7 @@ class AmountDecoratorTest extends TestCase
 
         $this->assertInstanceOf(Money::class, $decorator->money);
         $this->assertSame(500000, $decorator->getAmount());
-        $this->assertSame(5000.0, $decorator->rawAmount);
+        $this->assertSame(5000.0, $decorator->amount);
         $this->assertSame('usd', $decorator->getCurrency()->getCode());
         $this->assertSame(100, $decorator->multiplier);
     }

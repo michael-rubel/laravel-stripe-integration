@@ -16,15 +16,13 @@ class StripePaymentAmountDecorator implements PaymentAmount
     public Money $money;
 
     /**
-     * @param float  $rawAmount
-     * @param string $rawCurrency
+     * @param float  $amount
+     * @param string $currency
      * @param int    $multiplier
-     *
-     * @throws \Exception
      */
     public function __construct(
-        public float $rawAmount,
-        public string $rawCurrency,
+        public float $amount,
+        public string $currency,
         public int $multiplier = 100
     ) {
         if ($this->multiplier === 0) {
@@ -36,7 +34,7 @@ class StripePaymentAmountDecorator implements PaymentAmount
         // to payment-system friendly units.
         $this->money = new Money(
             $this->toPaymentSystemUnits(),
-            new Currency($this->rawCurrency)
+            new Currency($this->currency)
         );
     }
 
@@ -64,7 +62,7 @@ class StripePaymentAmountDecorator implements PaymentAmount
     public function toPaymentSystemUnits(): int
     {
         return (int) (
-            (string) ($this->rawAmount * $this->multiplier)
+            (string) ($this->amount * $this->multiplier)
         );
     }
 
