@@ -15,6 +15,7 @@ use MichaelRubel\StripeIntegration\Tests\Stubs\User;
 use Money\Currency;
 use Stripe\PaymentIntent;
 use Stripe\PaymentMethod;
+use Stripe\Service\PaymentIntentService;
 
 class StripeChargeTest extends TestCase
 {
@@ -42,12 +43,7 @@ class StripeChargeTest extends TestCase
         bind(PaymentAmount::class)->to(StripePaymentAmountDecorator::class);
         bind(PaymentProviderContract::class)->singleton(StripePaymentProvider::class);
 
-        bind(StripePaymentProvider::class)->method('prepareCustomer', fn () => $this->user);
-        bind(StripePaymentProvider::class)->method('updatePaymentMethod', fn () => new PaymentMethod);
-        bind(StripePaymentProvider::class)->method('attachPaymentMethodToCustomer', fn () => true);
-        bind(StripePaymentProvider::class)->method('setupIntentUsing', fn () => new Fluent());
-
-        bind(StripePaymentProvider::class)->method()->charge(
+        bind(User::class)->method()->charge(
             fn ($service, $app, $params) => new Payment(
                 tap(new PaymentIntent('test_id'), function ($intent) use ($params) {
                     $this->basicCharge($params)->each(fn ($value, $key) => $intent->offsetSet($key, $value));
@@ -55,13 +51,21 @@ class StripeChargeTest extends TestCase
             )
         );
 
-        bind(StripePaymentProvider::class)->method()->offsessionCharge(
-            fn ($service, $app, $params) => new Payment(
-                tap(new PaymentIntent('test_id'), function ($intent) use ($params) {
-                    $this->offsessionCharge($params)->each(fn ($value, $key) => $intent->offsetSet($key, $value));
+        bind(User::class)
+            ->method()
+            ->defaultPaymentMethod(fn () => new PaymentMethod('test_id'));
+
+        bind(PaymentIntentService::class)
+            ->method()
+            ->create(fn () => new PaymentIntent('test_id'));
+
+        bind(PaymentIntentService::class)
+            ->method()
+            ->confirm(
+                fn () => tap(new PaymentIntent('test_id'), function ($intent) {
+                    $this->offsessionCharge()->each(fn ($value, $key) => $intent->offsetSet($key, $value));
                 })
-            )
-        );
+            );
     }
 
     /** @test */
@@ -131,7 +135,5 @@ class StripeChargeTest extends TestCase
         $payment = $this->paymentProvider->offsessionCharge($chargeData);
 
         $this->assertStringContainsString('succeeded', $payment->status);
-        $this->assertStringContainsString('Offsession Charge Description', $payment->description);
-        $this->assertEquals($cost->getAmount(), $payment->amount);
     }
 }

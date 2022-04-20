@@ -3,14 +3,35 @@
 namespace MichaelRubel\StripeIntegration\Tests;
 
 use Illuminate\Support\Collection;
+use Laravel\Cashier\PaymentMethod as CashierPaymentMethod;
 use MichaelRubel\StripeIntegration\StripeIntegrationServiceProvider;
+use MichaelRubel\StripeIntegration\Tests\Stubs\User;
 use Orchestra\Testbench\TestCase as Orchestra;
+use Stripe\Customer;
+use Stripe\PaymentMethod;
+use Stripe\Service\PaymentMethodService;
+use Stripe\SetupIntent;
 
 class TestCase extends Orchestra
 {
     public function setUp(): void
     {
         parent::setUp();
+
+        // Set up mocks.
+        bind(User::class)->method()->createSetupIntent(fn () => new SetupIntent);
+        bind(User::class)->method()->createOrGetStripeCustomer(fn () => new Customer('test_id'));
+
+        $paymentMethod = new PaymentMethod('test_id');
+        $paymentMethod->offsetSet('customer', null);
+
+        bind(User::class)->method()->updateDefaultPaymentMethod(
+            fn () => new CashierPaymentMethod(new User, $paymentMethod)
+        );
+
+        bind(PaymentMethodService::class)
+            ->method()
+            ->attach(fn () => new PaymentMethod('test_id'));
     }
 
     protected function getPackageProviders($app): array
@@ -27,28 +48,18 @@ class TestCase extends Orchestra
 
     public function basicCharge(array $params): Collection
     {
-        if (isset($params['data'])) {
-            return collect([
-                'amount'         => $params['data']->payment_amount->getAmount(),
-                'currency'       => $params['data']->payment_amount->getCurrency()->getCode(),
-                'description'    => $params['data']?->options['description'],
-                'payment_method' => $params['data']->payment_method,
-                'status'         => 'succeeded',
-            ]);
-        }
-
-        return new Collection;
+        return collect([
+            'amount'         => $params['amount'],
+            'description'    => $params['options']['description'],
+            'payment_method' => $params['paymentMethod'],
+            'status'         => 'succeeded',
+        ]);
     }
 
-    public function offsessionCharge(array $params): Collection
+    public function offsessionCharge(): Collection
     {
-        return isset($params['data'])
-            ? collect([
-                'amount'      => $params['data']->payment_amount->getAmount(),
-                'currency'    => $params['data']->payment_amount->getCurrency()->getCode(),
-                'description' => $params['data']?->intent_params['description'],
-                'status'      => 'succeeded',
-            ])
-            : new Collection;
+        return collect([
+            'status' => 'succeeded',
+        ]);
     }
 }
