@@ -127,10 +127,10 @@ class StripePaymentProvider implements PaymentProviderContract
      *
      * @param StripeChargeData $data
      *
-     * @return Payment|null
+     * @return Payment
      * @throws IncompletePayment
      */
-    public function charge(StripeChargeData $data): ?Payment
+    public function charge(StripeChargeData $data): Payment
     {
         return call($data->model)->charge(
             $data->payment_amount->getAmount(),
