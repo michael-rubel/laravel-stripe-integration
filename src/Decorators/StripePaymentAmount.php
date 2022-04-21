@@ -9,7 +9,7 @@ use MichaelRubel\StripeIntegration\Decorators\Contracts\PaymentAmount;
 use Money\Currency;
 use Money\Money;
 
-class StripePaymentAmountDecorator implements PaymentAmount
+class StripePaymentAmount implements PaymentAmount
 {
     /**
      * @var Money

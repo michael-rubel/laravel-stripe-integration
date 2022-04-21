@@ -2,7 +2,7 @@
 
 namespace MichaelRubel\StripeIntegration\Tests;
 
-use MichaelRubel\StripeIntegration\Decorators\StripePaymentAmountDecorator;
+use MichaelRubel\StripeIntegration\Decorators\StripePaymentAmount;
 use Money\Money;
 
 class AmountDecoratorTest extends TestCase
@@ -10,9 +10,9 @@ class AmountDecoratorTest extends TestCase
     /** @test */
     public function testCanInstantiateDecorator()
     {
-        $decorator = new StripePaymentAmountDecorator(100, 'USD');
+        $decorator = new StripePaymentAmount(100, 'USD');
 
-        $this->assertInstanceOf(StripePaymentAmountDecorator::class, $decorator);
+        $this->assertInstanceOf(StripePaymentAmount::class, $decorator);
     }
 
     /** @test */
@@ -20,7 +20,7 @@ class AmountDecoratorTest extends TestCase
     {
         $this->expectException(\DivisionByZeroError::class);
 
-        new StripePaymentAmountDecorator(20000, 'pln', 0);
+        new StripePaymentAmount(20000, 'pln', 0);
     }
 
     /** @test */
@@ -28,13 +28,13 @@ class AmountDecoratorTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        new StripePaymentAmountDecorator(10, '');
+        new StripePaymentAmount(10, '');
     }
 
     /** @test */
     public function testCanConvertToSmallestCommonCurrencyUnit()
     {
-        $decorator = new StripePaymentAmountDecorator(1005.50, 'pln');
+        $decorator = new StripePaymentAmount(1005.50, 'pln');
 
         $converted = $decorator->toPaymentSystemUnits();
 
@@ -44,7 +44,7 @@ class AmountDecoratorTest extends TestCase
     /** @test */
     public function testCanRevertFromSmallestCommonCurrencyUnit()
     {
-        $decorator = new StripePaymentAmountDecorator(1005.49, 'usd');
+        $decorator = new StripePaymentAmount(1005.49, 'usd');
 
         $this->assertSame(100549, $decorator->toPaymentSystemUnits());
 
@@ -56,7 +56,7 @@ class AmountDecoratorTest extends TestCase
     /** @test */
     public function testCanForwardCallToMoneyObject()
     {
-        $decorator = new StripePaymentAmountDecorator(5000, 'usd');
+        $decorator = new StripePaymentAmount(5000, 'usd');
 
         $this->assertSame(250000.0, (float) $decorator->divide(2)->getAmount());
     }
@@ -64,7 +64,7 @@ class AmountDecoratorTest extends TestCase
     /** @test */
     public function testMainAssertionsAreSuccessful()
     {
-        $decorator = new StripePaymentAmountDecorator(1090.7, 'USD');
+        $decorator = new StripePaymentAmount(1090.7, 'USD');
 
         $this->assertInstanceOf(Money::class, $decorator->money);
         $this->assertSame(109070, $decorator->getAmount());
@@ -72,7 +72,7 @@ class AmountDecoratorTest extends TestCase
         $this->assertSame('USD', $decorator->getCurrency()->getCode());
         $this->assertSame(100, $decorator->multiplier);
 
-        $decorator = new StripePaymentAmountDecorator(1005.50, 'PLN');
+        $decorator = new StripePaymentAmount(1005.50, 'PLN');
 
         $this->assertInstanceOf(Money::class, $decorator->money);
         $this->assertSame(100550, $decorator->getAmount());
@@ -80,7 +80,7 @@ class AmountDecoratorTest extends TestCase
         $this->assertSame('PLN', $decorator->getCurrency()->getCode());
         $this->assertSame(100, $decorator->multiplier);
 
-        $decorator = new StripePaymentAmountDecorator('1005.50', 'GBP');
+        $decorator = new StripePaymentAmount('1005.50', 'GBP');
 
         $this->assertInstanceOf(Money::class, $decorator->money);
         $this->assertSame(100550, $decorator->getAmount());
@@ -88,7 +88,7 @@ class AmountDecoratorTest extends TestCase
         $this->assertSame('GBP', $decorator->getCurrency()->getCode());
         $this->assertSame(100, $decorator->multiplier);
 
-        $decorator = new StripePaymentAmountDecorator('1005', 'UAH');
+        $decorator = new StripePaymentAmount('1005', 'UAH');
 
         $this->assertInstanceOf(Money::class, $decorator->money);
         $this->assertSame(100500, $decorator->getAmount());

@@ -8,7 +8,7 @@ use MichaelRubel\EnhancedContainer\Core\CallProxy;
 use MichaelRubel\StripeIntegration\DataTransferObjects\OffsessionChargeData;
 use MichaelRubel\StripeIntegration\DataTransferObjects\StripeChargeData;
 use MichaelRubel\StripeIntegration\Decorators\Contracts\PaymentAmount;
-use MichaelRubel\StripeIntegration\Decorators\StripePaymentAmountDecorator;
+use MichaelRubel\StripeIntegration\Decorators\StripePaymentAmount;
 use MichaelRubel\StripeIntegration\Providers\Contracts\PaymentProviderContract;
 use MichaelRubel\StripeIntegration\Providers\StripePaymentProvider;
 use MichaelRubel\StripeIntegration\Tests\Stubs\User;
@@ -40,7 +40,7 @@ class StripeChargeTest extends TestCase
 
         config(['stripe-integration.secret' => 'sk_test_test']);
 
-        bind(PaymentAmount::class)->to(StripePaymentAmountDecorator::class);
+        bind(PaymentAmount::class)->to(StripePaymentAmount::class);
         bind(PaymentProviderContract::class)->singleton(StripePaymentProvider::class);
 
         bind(User::class)->method()->charge(
