@@ -72,8 +72,8 @@ class StripeChargeTest extends TestCase
     public function basicUsageChargeTest()
     {
         $cost = app(PaymentAmount::class, [
-            'currency' => new Currency('USD'),
-            'amount'   => 1000,
+            PaymentAmount::AMOUNT   => 1000,
+            PaymentAmount::CURRENCY => new Currency('USD'),
         ]);
 
         $this->paymentProvider = call(PaymentProviderContract::class);
@@ -108,8 +108,8 @@ class StripeChargeTest extends TestCase
     public function offsessionChargeTest()
     {
         $cost = app(PaymentAmount::class, [
-            'currency' => new Currency('PLN'),
-            'amount'   => 2000,
+            PaymentAmount::AMOUNT   => 1000,
+            PaymentAmount::CURRENCY => new Currency('USD'),
         ]);
 
         $this->paymentProvider = call(PaymentProviderContract::class);

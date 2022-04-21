@@ -9,6 +9,14 @@ use Money\Currency;
 interface PaymentAmount
 {
     /**
+     * Const-strings for input parameters.
+     *
+     * @const
+     */
+    public const AMOUNT   = 'amount';
+    public const CURRENCY = 'currency';
+
+    /**
      * Returns the value represented by this object.
      *
      * @return int
