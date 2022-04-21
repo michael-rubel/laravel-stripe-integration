@@ -12,22 +12,23 @@ This package represents ready-to-use integration with Stripe.
 
 The package requires PHP `^8.x` and Laravel `^8.71` or `^9.0`.
 
-### Features currently supported
+## #StandWithUkraine
+[![SWUbanner](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-direct.svg)](https://github.com/vshymanskyy/StandWithUkraine/blob/main/docs/README.md)
+
+### Features supported
 - Basic card charge
 - "Off-session" charge
 
 ### Roadmap
 - Stripe subscriptions support.
 
-The package rely on the following dependencies:
+### Dependencies
+The package rely on the following components:
 - `stripe/stripe-php` - Stripe API library.
 - `laravel/cashier` - Laravel's helper for Stripe subscriptions, etc.
 - `moneyphp/money` - Fowler's Money pattern to store amount/currency data.
 - `spatie/data-transfer-object` - Passing data to the provider methods, etc.
 - `michael-rubel/laravel-enhanced-container` - Method binding (package extendability & testing)
-
-## #StandWithUkraine
-[![SWUbanner](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-direct.svg)](https://github.com/vshymanskyy/StandWithUkraine/blob/main/docs/README.md)
 
 ## Installation
 Install the package using composer:
