@@ -25,18 +25,11 @@ class StripePaymentProvider implements PaymentProviderContract
     use Macroable;
 
     /**
-     * @var StripeClient
-     */
-    protected StripeClient $stripeClient;
-
-    /**
      * @return void
      */
-    public function __construct()
-    {
-        $this->stripeClient = new StripeClient(
-            config('stripe-integration.secret')
-        );
+    public function __construct(
+        protected StripeClient $stripeClient
+    ) {
     }
 
     /**

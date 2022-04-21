@@ -10,13 +10,26 @@ use Money\Currency;
 use Stripe\Customer;
 use Stripe\PaymentMethod;
 use Stripe\SetupIntent;
+use Stripe\StripeClient;
 
 class StripePaymentProviderTest extends TestCase
 {
     /** @test */
     public function testCanInstantiateStripePaymentProvider()
     {
-        $paymentProvider = new StripePaymentProvider;
+        $paymentProvider = new StripePaymentProvider(
+            new StripeClient(
+                config('stripe-integration.secret')
+            )
+        );
+
+        $this->assertInstanceOf(StripePaymentProvider::class, $paymentProvider);
+    }
+
+    /** @test */
+    public function testCanInstantiateStripePaymentProviderThroughContainer()
+    {
+        $paymentProvider = app(StripePaymentProvider::class);
 
         $this->assertInstanceOf(StripePaymentProvider::class, $paymentProvider);
     }
@@ -32,7 +45,7 @@ class StripePaymentProviderTest extends TestCase
     /** @test */
     public function testCanConfigureCashierCurrency()
     {
-        $paymentProvider = new StripePaymentProvider;
+        $paymentProvider = app(StripePaymentProvider::class);
 
         $paymentProvider->configureCashierCurrency(
             new Currency('USD')
@@ -44,7 +57,7 @@ class StripePaymentProviderTest extends TestCase
     /** @test */
     public function testCanCreateSetupIntent()
     {
-        $paymentProvider = new StripePaymentProvider;
+        $paymentProvider = app(StripePaymentProvider::class);
 
         $intent = $paymentProvider->setupIntentUsing(new User);
 
@@ -54,7 +67,7 @@ class StripePaymentProviderTest extends TestCase
     /** @test */
     public function testCanPrepareCustomer()
     {
-        $paymentProvider = new StripePaymentProvider;
+        $paymentProvider = app(StripePaymentProvider::class);
 
         $customer = $paymentProvider->prepareCustomer(new User);
 
@@ -64,7 +77,7 @@ class StripePaymentProviderTest extends TestCase
     /** @test */
     public function testCanUpdatePaymentMethod()
     {
-        $paymentProvider = new StripePaymentProvider;
+        $paymentProvider = app(StripePaymentProvider::class);
 
         $paymentMethod = $paymentProvider->updatePaymentMethod(
             new User,
@@ -77,7 +90,7 @@ class StripePaymentProviderTest extends TestCase
     /** @test */
     public function testCanAttachPaymentMethodToCustomer()
     {
-        $paymentProvider = new StripePaymentProvider;
+        $paymentProvider = app(StripePaymentProvider::class);
 
         $paymentMethod = $paymentProvider->attachPaymentMethodToCustomer(
             new PaymentMethod('test_id'),
