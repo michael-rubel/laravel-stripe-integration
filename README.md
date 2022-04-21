@@ -41,7 +41,11 @@ Publish the config and fill Stripe keys in `.env`:
 php artisan vendor:publish --tag="stripe-integration-config"
 ```
 
-## Example usage
+## Useful classes
+- [StripePaymentProvider](https://github.com/michael-rubel/laravel-stripe-integration/blob/b48d7c6bd52b3b0854701b0711aa7a9058bb7abc/src/Providers/StripePaymentProvider.php)
+- [StripePaymentAmount](https://github.com/michael-rubel/laravel-stripe-integration/blob/b48d7c6bd52b3b0854701b0711aa7a9058bb7abc/src/Decorators/StripePaymentAmount.php)
+
+## Usage example
 ```php
 /*
 |--------------------------------------------------------------------------
@@ -95,10 +99,10 @@ class StripeCharge implements Action
             $customer
         );
 
-        $amount = new StripePaymentAmountDecorator(
-            1000,
-            $currency->getCode()
-        );
+        $amount = app(PaymentAmount::class, [
+            PaymentAmount::AMOUNT   => 1000,
+            PaymentAmount::CURRENCY => $currency->getCode(),
+        ]);
 
         $chargeData = new StripeChargeData(
             model: auth()->user(),
