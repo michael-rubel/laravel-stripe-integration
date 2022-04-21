@@ -35,7 +35,7 @@ class StripePaymentAmount implements PaymentAmount
         }
 
         // Configures the payment amount decorator.
-        // Used mainly for converting the payment amount
+        // Used mainly for converting the amount
         // to payment-system friendly units.
         $this->money = new Money(
             $this->toPaymentSystemUnits(),
