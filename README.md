@@ -24,11 +24,10 @@ The package requires PHP `^8.x` and Laravel `^8.71` or `^9.0`.
 
 ### Dependencies
 The package rely on the following components:
-- `stripe/stripe-php` - Stripe API library.
-- `laravel/cashier` - Laravel's helper for Stripe subscriptions, etc.
-- `moneyphp/money` - Fowler's Money pattern to store amount/currency data.
-- `spatie/data-transfer-object` - Passing data to the provider methods, etc.
-- `michael-rubel/laravel-enhanced-container` - Method binding (package extendability & testing)
+- [`moneyphp/money`](https://github.com/moneyphp/money)
+- [`laravel/cashier`](https://github.com/laravel/cashier-stripe)
+- [`spatie/data-transfer-object`](https://github.com/spatie/data-transfer-object)
+- [`michael-rubel/laravel-enhanced-container`](https://github.com/michael-rubel/laravel-enhanced-container)
 
 ## Installation
 Install the package using composer:
