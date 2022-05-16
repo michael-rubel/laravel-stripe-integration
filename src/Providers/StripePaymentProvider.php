@@ -121,18 +121,18 @@ class StripePaymentProvider implements PaymentProviderContract
      *
      * @param StripePaymentAmount $paymentAmount
      * @param Model               $model
+     * @param array               $intent_options
      *
      * @return PaymentIntent
-     * @throws ApiErrorException
      */
-    public function createPaymentIntent(StripePaymentAmount $paymentAmount, Model $model): PaymentIntent
+    public function createPaymentIntent(StripePaymentAmount $paymentAmount, Model $model, array $intent_options = []): PaymentIntent
     {
         return call($this->stripeClient->paymentIntents)->create([
             'amount'               => $paymentAmount->getAmount(),
             'currency'             => $paymentAmount->getCurrency()->getCode(),
             'customer'             => $model->stripe_id,
             'payment_method_types' => ['card'],
-        ]);
+        ], $intent_options);
     }
 
     /**
