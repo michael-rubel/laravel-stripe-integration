@@ -163,6 +163,26 @@ class StripePaymentProvider implements PaymentProviderContract
     }
 
     /**
+     * Retrieve the payment intent.
+     *
+     * @param string $intent_id
+     * @param array  $params
+     * @param array  $options
+     *
+     * @return PaymentIntent
+     *
+     * @throws ApiErrorException
+     */
+    public function retrievePaymentIntent(string $intent_id, array $params = [], array $options = []): PaymentIntent
+    {
+        return call($this->stripeClient->paymentIntents)->retrieve(
+            $intent_id,
+            $params,
+            $options
+        );
+    }
+
+    /**
      * Update the payment intent.
      *
      * @param string $intent_id

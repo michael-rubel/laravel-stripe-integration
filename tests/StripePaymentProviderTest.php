@@ -35,6 +35,10 @@ class StripePaymentProviderTest extends TestCase
         bind(PaymentIntentService::class)
             ->method()
             ->update(fn () => new PaymentIntent('test_id'));
+
+        bind(PaymentIntentService::class)
+            ->method()
+            ->retrieve(fn () => new PaymentIntent('test_id'));
     }
 
     /** @test */
@@ -158,6 +162,18 @@ class StripePaymentProviderTest extends TestCase
         $paymentProvider = app(StripePaymentProvider::class);
 
         $updatedPaymentIntent = $paymentProvider->updatePaymentIntent('test_id', [
+            'description' => 123,
+        ]);
+
+        $this->assertInstanceOf(PaymentIntent::class, $updatedPaymentIntent);
+    }
+
+    /** @test */
+    public function testCanRetrievePaymentIntent()
+    {
+        $paymentProvider = app(StripePaymentProvider::class);
+
+        $updatedPaymentIntent = $paymentProvider->retrievePaymentIntent('test_id', [
             'description' => 123,
         ]);
 
