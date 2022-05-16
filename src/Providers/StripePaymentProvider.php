@@ -11,6 +11,7 @@ use Laravel\Cashier\Payment;
 use Laravel\Cashier\PaymentMethod as CashierPaymentMethod;
 use MichaelRubel\StripeIntegration\DataTransferObjects\OffsessionChargeData;
 use MichaelRubel\StripeIntegration\DataTransferObjects\StripeChargeData;
+use MichaelRubel\StripeIntegration\Decorators\StripePaymentAmount;
 use MichaelRubel\StripeIntegration\Providers\Contracts\PaymentProviderContract;
 use Money\Currency;
 use Stripe\Customer;
@@ -113,6 +114,25 @@ class StripePaymentProvider implements PaymentProviderContract
             $params,
             $options
         );
+    }
+
+    /**
+     * Creates a payment intent.
+     *
+     * @param StripePaymentAmount $paymentAmount
+     * @param Model               $model
+     *
+     * @return PaymentIntent
+     * @throws ApiErrorException
+     */
+    public function createPaymentIntent(StripePaymentAmount $paymentAmount, Model $model): PaymentIntent
+    {
+        return call($this->stripeClient->paymentIntents)->create([
+            'amount'               => $paymentAmount->getAmount(),
+            'currency'             => $paymentAmount->getCurrency()->getCode(),
+            'customer'             => $model->stripe_id,
+            'payment_method_types' => ['card'],
+        ]);
     }
 
     /**
