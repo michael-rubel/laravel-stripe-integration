@@ -11,7 +11,7 @@ use Laravel\Cashier\Payment;
 use Laravel\Cashier\PaymentMethod as CashierPaymentMethod;
 use MichaelRubel\StripeIntegration\DataTransferObjects\OffsessionChargeData;
 use MichaelRubel\StripeIntegration\DataTransferObjects\StripeChargeData;
-use MichaelRubel\StripeIntegration\Decorators\StripePaymentAmount;
+use MichaelRubel\StripeIntegration\Decorators\Contracts\PaymentAmount;
 use MichaelRubel\StripeIntegration\Providers\Contracts\PaymentProviderContract;
 use Money\Currency;
 use Stripe\Customer;
@@ -136,7 +136,7 @@ class StripePaymentProvider implements PaymentProviderContract
     /**
      * Create a payment intent.
      *
-     * @param StripePaymentAmount $paymentAmount
+     * @param PaymentAmount $paymentAmount
      * @param Model               $model
      * @param array               $intent_params
      * @param array               $intent_options
@@ -144,7 +144,7 @@ class StripePaymentProvider implements PaymentProviderContract
      * @return PaymentIntent
      */
     public function createPaymentIntent(
-        StripePaymentAmount $paymentAmount,
+        PaymentAmount $paymentAmount,
         Model $model,
         array $intent_params = [],
         array $intent_options = []
