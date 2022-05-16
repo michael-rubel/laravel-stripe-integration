@@ -17,6 +17,26 @@ use Stripe\StripeClient;
 
 class StripePaymentProviderTest extends TestCase
 {
+    /**
+     * @return void
+     */
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        bind(PaymentIntentService::class)
+            ->method()
+            ->create(fn () => new PaymentIntent('test_id'));
+
+        bind(PaymentIntentService::class)
+            ->method()
+            ->confirm(fn () => new PaymentIntent('test_id'));
+
+        bind(PaymentIntentService::class)
+            ->method()
+            ->update(fn () => new PaymentIntent('test_id'));
+    }
+
     /** @test */
     public function testCanInstantiateStripePaymentProvider()
     {
@@ -118,5 +138,29 @@ class StripePaymentProviderTest extends TestCase
         );
 
         $this->assertInstanceOf(PaymentIntent::class, $paymentIntent);
+    }
+
+    /** @test */
+    public function testCanConfirmPaymentIntent()
+    {
+        $paymentProvider = app(StripePaymentProvider::class);
+
+        $confirmedPaymentIntent = $paymentProvider->confirmPaymentIntent(
+            new PaymentIntent('test_id')
+        );
+
+        $this->assertInstanceOf(PaymentIntent::class, $confirmedPaymentIntent);
+    }
+
+    /** @test */
+    public function testCanUpdatePaymentIntent()
+    {
+        $paymentProvider = app(StripePaymentProvider::class);
+
+        $updatedPaymentIntent = $paymentProvider->updatePaymentIntent('test_id', [
+            'description' => 123,
+        ]);
+
+        $this->assertInstanceOf(PaymentIntent::class, $updatedPaymentIntent);
     }
 }

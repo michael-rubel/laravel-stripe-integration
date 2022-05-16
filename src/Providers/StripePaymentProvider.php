@@ -77,7 +77,7 @@ class StripePaymentProvider implements PaymentProviderContract
     }
 
     /**
-     * Updates the default payment method for model.
+     * Update the default payment method for model.
      *
      * @param Model                $model
      * @param PaymentMethod|string $paymentMethod
@@ -90,7 +90,7 @@ class StripePaymentProvider implements PaymentProviderContract
     }
 
     /**
-     * Attaches the payment method to the customer.
+     * Attach the payment method to the customer.
      *
      * @param PaymentMethod|CashierPaymentMethod $paymentMethod
      * @param Customer                           $customer
@@ -117,26 +117,7 @@ class StripePaymentProvider implements PaymentProviderContract
     }
 
     /**
-     * Creates a payment intent.
-     *
-     * @param StripePaymentAmount $paymentAmount
-     * @param Model               $model
-     * @param array               $intent_options
-     *
-     * @return PaymentIntent
-     */
-    public function createPaymentIntent(StripePaymentAmount $paymentAmount, Model $model, array $intent_options = []): PaymentIntent
-    {
-        return call($this->stripeClient->paymentIntents)->create([
-            'amount'               => $paymentAmount->getAmount(),
-            'currency'             => $paymentAmount->getCurrency()->getCode(),
-            'customer'             => $model->stripe_id,
-            'payment_method_types' => ['card'],
-        ], $intent_options);
-    }
-
-    /**
-     * Simple charge.
+     * Perform a simple charge.
      *
      * @param StripeChargeData $data
      *
@@ -153,7 +134,77 @@ class StripePaymentProvider implements PaymentProviderContract
     }
 
     /**
-     * Offsession charge.
+     * Create a payment intent.
+     *
+     * @param StripePaymentAmount $paymentAmount
+     * @param Model               $model
+     * @param array               $intent_params
+     * @param array               $intent_options
+     *
+     * @return PaymentIntent
+     */
+    public function createPaymentIntent(
+        StripePaymentAmount $paymentAmount,
+        Model $model,
+        array $intent_params = [],
+        array $intent_options = []
+    ): PaymentIntent {
+        $intent_params = collect([
+            'amount'               => $paymentAmount->getAmount(),
+            'currency'             => $paymentAmount->getCurrency()->getCode(),
+            'customer'             => $model->stripe_id,
+            'payment_method_types' => ['card'],
+        ])->merge($intent_params)->toArray();
+
+        return call($this->stripeClient->paymentIntents)->create(
+            $intent_params,
+            $intent_options
+        );
+    }
+
+    /**
+     * Update the payment intent.
+     *
+     * @param string $intent_id
+     * @param array  $params
+     * @param array  $options
+     *
+     * @return PaymentIntent
+     *
+     * @throws ApiErrorException
+     */
+    public function updatePaymentIntent(string $intent_id, array $params = [], array $options = []): PaymentIntent
+    {
+        return call($this->stripeClient->paymentIntents)->update(
+            $intent_id,
+            $params,
+            $options
+        );
+    }
+
+    /**
+     * Confirm the payment intent.
+     *
+     * @param PaymentIntent $paymentIntent
+     * @param array         $confirmation_params
+     * @param array         $confirmation_options
+     *
+     * @return PaymentIntent
+     */
+    public function confirmPaymentIntent(
+        PaymentIntent $paymentIntent,
+        array $confirmation_params = [],
+        array $confirmation_options = []
+    ): PaymentIntent {
+        return call($this->stripeClient->paymentIntents)->confirm(
+            $paymentIntent->id,
+            $confirmation_params,
+            $confirmation_options
+        );
+    }
+
+    /**
+     * Perform an offsession charge.
      *
      * @param OffsessionChargeData $data
      *
@@ -162,24 +213,17 @@ class StripePaymentProvider implements PaymentProviderContract
      */
     public function offsessionCharge(OffsessionChargeData $data): PaymentIntent
     {
-        $intent_params = collect([
-            'amount'               => $data->payment_amount->getAmount(),
-            'currency'             => $data->payment_amount->getCurrency()->getCode(),
-            'customer'             => $data->model->stripe_id,
-            'payment_method_types' => ['card'],
-        ])->merge($data->intent_params)->toArray();
-
-        $paymentIntent = call($this->stripeClient->paymentIntents)->create(
-            $intent_params,
-            $data->intent_options
+        $paymentIntent = $this->createPaymentIntent(
+            $data->payment_amount,
+            $data->model
         );
 
         $confirmation_params = collect([
             'payment_method' => call($data->model)->defaultPaymentMethod()->id,
         ])->merge($data->confirmation_params)->toArray();
 
-        return call($this->stripeClient->paymentIntents)->confirm(
-            $paymentIntent->id,
+        return $this->confirmPaymentIntent(
+            $paymentIntent,
             $confirmation_params,
             $data->confirmation_options
         );
