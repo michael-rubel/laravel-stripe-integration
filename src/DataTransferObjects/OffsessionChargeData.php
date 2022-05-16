@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MichaelRubel\StripeIntegration\DataTransferObjects;
 
 use Illuminate\Database\Eloquent\Model;
-use MichaelRubel\StripeIntegration\Decorators\Contracts\PaymentAmount;
+use MichaelRubel\StripeIntegration\Decorators\StripePaymentAmount;
 use Spatie\DataTransferObject\DataTransferObject;
 
 class OffsessionChargeData extends DataTransferObject
@@ -16,9 +16,9 @@ class OffsessionChargeData extends DataTransferObject
     public Model $model;
 
     /**
-     * @var PaymentAmount
+     * @var StripePaymentAmount
      */
-    public PaymentAmount $payment_amount;
+    public StripePaymentAmount $payment_amount;
 
     /**
      * @var array
