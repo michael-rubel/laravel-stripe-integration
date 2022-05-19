@@ -176,8 +176,12 @@ class StripePaymentProvider implements PaymentProviderContract
      * @return PaymentIntent
      *
      */
-    public function updatePaymentIntent(string $intent_id, Model $model, array $params = [], array $options = []): PaymentIntent
-    {
+    public function updatePaymentIntent(
+        string $intent_id,
+        Model $model,
+        array $params = [],
+        array $options = []
+    ): PaymentIntent {
         return call($this->stripeClient->paymentIntents)->update(
             $intent_id,
             collect($params)
