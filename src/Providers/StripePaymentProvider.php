@@ -168,7 +168,7 @@ class StripePaymentProvider implements PaymentProviderContract
     /**
      * Update the payment intent.
      *
-     * @param string $intent_id
+     * @param string $intentId
      * @param Model  $model
      * @param array  $params
      * @param array  $options
@@ -177,13 +177,13 @@ class StripePaymentProvider implements PaymentProviderContract
      *
      */
     public function updatePaymentIntent(
-        string $intent_id,
+        string $intentId,
         Model $model,
         array $params = [],
         array $options = []
     ): PaymentIntent {
         return call($this->stripeClient->paymentIntents)->update(
-            $intent_id,
+            $intentId,
             collect($params)
                 ->when($model->stripeId(), fn ($params) => $params->merge([
                     'customer' => $model->stripeId(),
