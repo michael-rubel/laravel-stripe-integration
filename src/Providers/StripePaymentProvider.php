@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MichaelRubel\StripeIntegration\Providers;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Macroable;
 use Laravel\Cashier\Exceptions\IncompletePayment;
 use Laravel\Cashier\Payment;
@@ -138,27 +139,29 @@ class StripePaymentProvider implements PaymentProviderContract
      *
      * @param StripePaymentAmount $paymentAmount
      * @param Model               $model
-     * @param array               $intent_params
-     * @param array               $intent_options
+     * @param array               $params
+     * @param array               $options
      *
      * @return PaymentIntent
      */
     public function createPaymentIntent(
         StripePaymentAmount $paymentAmount,
         Model $model,
-        array $intent_params = [],
-        array $intent_options = []
+        array $params = [],
+        array $options = []
     ): PaymentIntent {
-        $intent_params = collect([
-            'amount'               => $paymentAmount->getAmount(),
-            'currency'             => $paymentAmount->getCurrency()->getCode(),
-            'customer'             => $model->stripe_id,
-            'payment_method_types' => ['card'],
-        ])->merge($intent_params)->toArray();
-
         return call($this->stripeClient->paymentIntents)->create(
-            $intent_params,
-            $intent_options
+            collect([
+                'amount'               => $paymentAmount->getAmount(),
+                'currency'             => $paymentAmount->getCurrency()->getCode(),
+                'payment_method_types' => ['card'],
+            ])
+            ->when($model->stripeId(), fn ($params) => $params->merge([
+                'customer' => $model->stripeId(),
+            ]))
+            ->merge($params)
+            ->toArray(),
+            $options
         );
     }
 
