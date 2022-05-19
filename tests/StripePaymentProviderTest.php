@@ -161,7 +161,7 @@ class StripePaymentProviderTest extends TestCase
     {
         $paymentProvider = app(StripePaymentProvider::class);
 
-        $updatedPaymentIntent = $paymentProvider->updatePaymentIntent('test_id', [
+        $updatedPaymentIntent = $paymentProvider->updatePaymentIntent('test_id', new User, [
             'description' => 123,
         ]);
 
