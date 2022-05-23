@@ -21,7 +21,7 @@
         "laravel/cashier": "^13.8",
         "spatie/data-transfer-object": "^3.7",
         "spatie/laravel-package-tools": "^1.11",
-        "michael-rubel/laravel-enhanced-container": "^6.0|^7.4"
+        "michael-rubel/laravel-enhanced-container": "^6.3|^7.4|^8.0"
     },
     "require-dev": {
         "nunomaduro/collision": "^5.10|^6.0",
