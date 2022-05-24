@@ -138,7 +138,7 @@ class StripePaymentProviderTest extends TestCase
 
         $paymentIntent = $paymentProvider->createPaymentIntent(
             new StripePaymentAmount(100, 'PLN'),
-            new User
+            new User(['stripe_id' => 'test'])
         );
 
         $this->assertInstanceOf(PaymentIntent::class, $paymentIntent);
@@ -161,7 +161,7 @@ class StripePaymentProviderTest extends TestCase
     {
         $paymentProvider = app(StripePaymentProvider::class);
 
-        $updatedPaymentIntent = $paymentProvider->updatePaymentIntent('test_id', new User, [
+        $updatedPaymentIntent = $paymentProvider->updatePaymentIntent('test_id', new User(['stripe_id' => 'test']), [
             'description' => 123,
         ]);
 

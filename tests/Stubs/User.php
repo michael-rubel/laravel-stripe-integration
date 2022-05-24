@@ -13,4 +13,9 @@ class User extends Model implements AuthenticatableContract
     use Authenticatable,
         Authorizable,
         Billable;
+
+    /**
+     * @var array
+     */
+    protected $guarded = [];
 }
