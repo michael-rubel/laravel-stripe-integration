@@ -17,10 +17,8 @@ The package requires PHP `^8.x` and Laravel `^8.71` or `^9.0`.
 
 ### Features supported
 - Basic card charge
+- Payment intent management
 - "Off-session" charge
-
-### Roadmap
-- Stripe subscriptions support.
 
 ### Dependencies
 The package rely on the following components:
