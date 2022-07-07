@@ -2,7 +2,6 @@
 
 namespace MichaelRubel\StripeIntegration\Tests;
 
-use Illuminate\Support\Fluent;
 use Laravel\Cashier\Payment;
 use MichaelRubel\EnhancedContainer\Core\CallProxy;
 use MichaelRubel\StripeIntegration\DataTransferObjects\OffsessionChargeData;
@@ -72,7 +71,7 @@ class StripeChargeTest extends TestCase
     public function basicUsageChargeTest()
     {
         $cost = app(PaymentAmount::class, [
-            PaymentAmount::AMOUNT   => 1000,
+            PaymentAmount::AMOUNT => 1000,
             PaymentAmount::CURRENCY => new Currency('USD'),
         ]);
 
@@ -108,7 +107,7 @@ class StripeChargeTest extends TestCase
     public function offsessionChargeTest()
     {
         $cost = app(PaymentAmount::class, [
-            PaymentAmount::AMOUNT   => 1000,
+            PaymentAmount::AMOUNT => 1000,
             PaymentAmount::CURRENCY => new Currency('USD'),
         ]);
 

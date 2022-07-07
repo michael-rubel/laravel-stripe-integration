@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace MichaelRubel\StripeIntegration\Providers;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Macroable;
 use Laravel\Cashier\Exceptions\IncompletePayment;
 use Laravel\Cashier\Payment;
@@ -37,7 +36,7 @@ class StripePaymentProvider implements PaymentProviderContract
     /**
      * Set the Cashier's currency.
      *
-     * @param Currency $currency
+     * @param  Currency  $currency
      *
      * @return void
      */
@@ -51,8 +50,8 @@ class StripePaymentProvider implements PaymentProviderContract
     /**
      * Create the Stripe setup intent.
      *
-     * @param Model $model
-     * @param array $options
+     * @param  Model  $model
+     * @param  array  $options
      *
      * @return SetupIntent
      */
@@ -68,7 +67,7 @@ class StripePaymentProvider implements PaymentProviderContract
     /**
      * Prepare the customer to work with the payment system.
      *
-     * @param Model $model
+     * @param  Model  $model
      *
      * @return Customer
      */
@@ -80,8 +79,8 @@ class StripePaymentProvider implements PaymentProviderContract
     /**
      * Update the default payment method for model.
      *
-     * @param Model                $model
-     * @param PaymentMethod|string $paymentMethod
+     * @param  Model  $model
+     * @param  PaymentMethod|string  $paymentMethod
      *
      * @return CashierPaymentMethod
      */
@@ -93,10 +92,10 @@ class StripePaymentProvider implements PaymentProviderContract
     /**
      * Attach the payment method to the customer.
      *
-     * @param PaymentMethod|CashierPaymentMethod $paymentMethod
-     * @param Customer                           $customer
-     * @param array                              $params
-     * @param array                              $options
+     * @param  PaymentMethod|CashierPaymentMethod  $paymentMethod
+     * @param  Customer  $customer
+     * @param  array  $params
+     * @param  array  $options
      *
      * @return PaymentMethod
      */
@@ -120,7 +119,7 @@ class StripePaymentProvider implements PaymentProviderContract
     /**
      * Perform a simple charge.
      *
-     * @param StripeChargeData $data
+     * @param  StripeChargeData  $data
      *
      * @return Payment
      * @throws IncompletePayment
@@ -137,10 +136,10 @@ class StripePaymentProvider implements PaymentProviderContract
     /**
      * Create a payment intent.
      *
-     * @param StripePaymentAmount $paymentAmount
-     * @param Model               $model
-     * @param array               $params
-     * @param array               $options
+     * @param  StripePaymentAmount  $paymentAmount
+     * @param  Model  $model
+     * @param  array  $params
+     * @param  array  $options
      *
      * @return PaymentIntent
      */
@@ -152,8 +151,8 @@ class StripePaymentProvider implements PaymentProviderContract
     ): PaymentIntent {
         return call($this->stripeClient->paymentIntents)->create(
             collect([
-                'amount'               => $paymentAmount->getAmount(),
-                'currency'             => $paymentAmount->getCurrency()->getCode(),
+                'amount' => $paymentAmount->getAmount(),
+                'currency' => $paymentAmount->getCurrency()->getCode(),
                 'payment_method_types' => ['card'],
             ])
             ->when($model->stripeId(), fn ($params) => $params->merge([
@@ -168,13 +167,12 @@ class StripePaymentProvider implements PaymentProviderContract
     /**
      * Update the payment intent.
      *
-     * @param string $intentId
-     * @param Model  $model
-     * @param array  $params
-     * @param array  $options
+     * @param  string  $intentId
+     * @param  Model  $model
+     * @param  array  $params
+     * @param  array  $options
      *
      * @return PaymentIntent
-     *
      */
     public function updatePaymentIntent(
         string $intentId,
@@ -196,9 +194,9 @@ class StripePaymentProvider implements PaymentProviderContract
     /**
      * Retrieve the payment intent.
      *
-     * @param string $intent_id
-     * @param array  $params
-     * @param array  $options
+     * @param  string  $intent_id
+     * @param  array  $params
+     * @param  array  $options
      *
      * @return PaymentIntent
      *
@@ -216,9 +214,9 @@ class StripePaymentProvider implements PaymentProviderContract
     /**
      * Confirm the payment intent.
      *
-     * @param PaymentIntent $paymentIntent
-     * @param array         $confirmation_params
-     * @param array         $confirmation_options
+     * @param  PaymentIntent  $paymentIntent
+     * @param  array  $confirmation_params
+     * @param  array  $confirmation_options
      *
      * @return PaymentIntent
      */
@@ -237,7 +235,7 @@ class StripePaymentProvider implements PaymentProviderContract
     /**
      * Perform an offsession charge.
      *
-     * @param OffsessionChargeData $data
+     * @param  OffsessionChargeData  $data
      *
      * @return PaymentIntent
      * @throws ApiErrorException

@@ -17,9 +17,9 @@ class StripePaymentAmount implements PaymentAmount
     public Money $money;
 
     /**
-     * @param float  $amount
-     * @param string $currency
-     * @param int    $multiplier
+     * @param  float  $amount
+     * @param  string  $currency
+     * @param  int  $multiplier
      */
     public function __construct(
         public float $amount,
@@ -88,8 +88,8 @@ class StripePaymentAmount implements PaymentAmount
     /**
      * Forward call to the money object if the method doesn't exist in the decorator.
      *
-     * @param string $method
-     * @param array $parameters
+     * @param  string  $method
+     * @param  array  $parameters
      * @return mixed
      */
     public function __call(string $method, array $parameters): mixed

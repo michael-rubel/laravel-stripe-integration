@@ -13,7 +13,7 @@ interface PaymentAmount
      *
      * @const
      */
-    public const AMOUNT   = 'amount';
+    public const AMOUNT = 'amount';
     public const CURRENCY = 'currency';
 
     /**
