@@ -16,15 +16,14 @@
         }
     ],
     "require": {
-        "php": "^8.0|^8.1",
-        "laravel/framework": "^8.71|^9.0",
+        "php": "^8.0",
         "laravel/cashier": "^13.8",
         "spatie/data-transfer-object": "^3.7",
         "spatie/laravel-package-tools": "^1.11",
-        "michael-rubel/laravel-enhanced-container": "^6.3|^7.4|^8.0"
+        "michael-rubel/laravel-enhanced-container": "^6.3|^8.0|^9.0"
     },
     "require-dev": {
-        "nunomaduro/collision": "^5.10|^6.0",
+        "nunomaduro/collision": "^6.0",
         "nunomaduro/larastan": "^1.0",
         "phpunit/phpunit": "^9.5",
         "orchestra/testbench": "^6.6|^7.0",
