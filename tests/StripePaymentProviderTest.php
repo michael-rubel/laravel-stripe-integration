@@ -4,6 +4,7 @@ namespace MichaelRubel\StripeIntegration\Tests;
 
 use Laravel\Cashier\PaymentMethod as CashierPaymentMethod;
 use MichaelRubel\EnhancedContainer\Call;
+use MichaelRubel\StripeIntegration\DataTransferObjects\PaymentMethodAttachmentData;
 use MichaelRubel\StripeIntegration\Decorators\StripePaymentAmount;
 use MichaelRubel\StripeIntegration\Providers\StripePaymentProvider;
 use MichaelRubel\StripeIntegration\Tests\Stubs\User;
@@ -120,8 +121,10 @@ class StripePaymentProviderTest extends TestCase
         $paymentProvider = app(StripePaymentProvider::class);
 
         $paymentMethod = $paymentProvider->attachPaymentMethodToCustomer(
-            new PaymentMethod('test_id'),
-            new Customer('test_id')
+            new PaymentMethodAttachmentData(
+                paymentMethod: new PaymentMethod('test_id'),
+                customer: new Customer('test_id'),
+            )
         );
 
         $this->assertInstanceOf(PaymentMethod::class, $paymentMethod);

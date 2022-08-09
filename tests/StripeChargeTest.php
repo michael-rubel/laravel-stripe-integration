@@ -5,6 +5,7 @@ namespace MichaelRubel\StripeIntegration\Tests;
 use Laravel\Cashier\Payment;
 use MichaelRubel\EnhancedContainer\Core\CallProxy;
 use MichaelRubel\StripeIntegration\DataTransferObjects\OffsessionChargeData;
+use MichaelRubel\StripeIntegration\DataTransferObjects\PaymentMethodAttachmentData;
 use MichaelRubel\StripeIntegration\DataTransferObjects\StripeChargeData;
 use MichaelRubel\StripeIntegration\Decorators\Contracts\PaymentAmount;
 use MichaelRubel\StripeIntegration\Decorators\StripePaymentAmount;
@@ -85,8 +86,10 @@ class StripeChargeTest extends TestCase
         );
 
         $this->paymentProvider->attachPaymentMethodToCustomer(
-            $paymentMethod,
-            $customer
+            new PaymentMethodAttachmentData(
+                paymentMethod: $paymentMethod,
+                customer: $customer,
+            )
         );
 
         $chargeData = new StripeChargeData(
@@ -121,8 +124,10 @@ class StripeChargeTest extends TestCase
         );
 
         $this->paymentProvider->attachPaymentMethodToCustomer(
-            $paymentMethod,
-            $customer
+            new PaymentMethodAttachmentData(
+                paymentMethod: $paymentMethod,
+                customer: $customer,
+            )
         );
 
         $chargeData = new OffsessionChargeData(

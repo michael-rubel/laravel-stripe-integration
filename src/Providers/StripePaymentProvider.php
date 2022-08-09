@@ -10,6 +10,7 @@ use Laravel\Cashier\Exceptions\IncompletePayment;
 use Laravel\Cashier\Payment;
 use Laravel\Cashier\PaymentMethod as CashierPaymentMethod;
 use MichaelRubel\StripeIntegration\DataTransferObjects\OffsessionChargeData;
+use MichaelRubel\StripeIntegration\DataTransferObjects\PaymentMethodAttachmentData;
 use MichaelRubel\StripeIntegration\DataTransferObjects\StripeChargeData;
 use MichaelRubel\StripeIntegration\Decorators\StripePaymentAmount;
 use MichaelRubel\StripeIntegration\Providers\Contracts\PaymentProviderContract;
@@ -92,27 +93,20 @@ class StripePaymentProvider implements PaymentProviderContract
     /**
      * Attach the payment method to the customer.
      *
-     * @param  PaymentMethod|CashierPaymentMethod  $paymentMethod
-     * @param  Customer  $customer
-     * @param  array  $params
-     * @param  array  $options
+     * @param  PaymentMethodAttachmentData  $data
      *
      * @return PaymentMethod
      */
-    public function attachPaymentMethodToCustomer(
-        PaymentMethod|CashierPaymentMethod $paymentMethod,
-        Customer $customer,
-        array $params = [],
-        array $options = []
-    ): PaymentMethod {
+    public function attachPaymentMethodToCustomer(PaymentMethodAttachmentData $data): PaymentMethod
+    {
         $params = collect([
-            'customer' => $customer->id,
-        ])->merge($params)->toArray();
+            'customer' => $data->customer->id,
+        ])->merge($data->params)->toArray();
 
         return call($this->stripeClient->paymentMethods)->attach(
-            $paymentMethod->id,
+            $data->paymentMethod->id,
             $params,
-            $options
+            $data->options
         );
     }
 
