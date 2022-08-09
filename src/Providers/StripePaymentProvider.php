@@ -136,12 +136,12 @@ class StripePaymentProvider implements PaymentProviderContract
     public function createPaymentIntent(PaymentIntentData $data): PaymentIntent
     {
         $makeIntentParams = collect([
-            'amount' => $data->paymentAmount->getAmount(),
-            'currency' => $data->paymentAmount->getCurrency()->getCode(),
+            'amount' => $data->paymentAmount?->getAmount(),
+            'currency' => $data->paymentAmount?->getCurrency()->getCode(),
             'payment_method_types' => ['card'],
         ])
-        ->when($data->model->stripeId(), fn ($params) => $params->merge([
-            'customer' => $data->model->stripeId(),
+        ->when($data->model?->stripeId(), fn ($params) => $params->merge([
+            'customer' => $data->model?->stripeId(),
         ]))
         ->merge($data->params)
         ->toArray();
@@ -159,8 +159,8 @@ class StripePaymentProvider implements PaymentProviderContract
     public function updatePaymentIntent(PaymentIntentData $data): PaymentIntent
     {
         $updateIntentParams = collect($data->params)
-            ->when($data->model->stripeId(), fn ($params) => $params->merge([
-                'customer' => $data->model->stripeId(),
+            ->when($data->model?->stripeId(), fn ($params) => $params->merge([
+                'customer' => $data->model?->stripeId(),
             ]))
             ->toArray();
 
@@ -193,7 +193,7 @@ class StripePaymentProvider implements PaymentProviderContract
     public function confirmPaymentIntent(PaymentIntentData $data): PaymentIntent
     {
         return call($this->stripeClient->paymentIntents)->confirm(
-            $data->paymentIntent->id, $data->params, $data->options
+            $data->paymentIntent?->id, $data->params, $data->options
         );
     }
 
