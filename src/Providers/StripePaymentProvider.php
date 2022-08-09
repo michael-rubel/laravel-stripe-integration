@@ -10,7 +10,7 @@ use Laravel\Cashier\Exceptions\IncompletePayment;
 use Laravel\Cashier\Payment;
 use Laravel\Cashier\PaymentMethod as CashierPaymentMethod;
 use MichaelRubel\StripeIntegration\DataTransferObjects\OffsessionChargeData;
-use MichaelRubel\StripeIntegration\DataTransferObjects\PaymentIntentData;
+use MichaelRubel\StripeIntegration\DataTransferObjects\PaymentIntentCreationData;
 use MichaelRubel\StripeIntegration\DataTransferObjects\PaymentMethodAttachmentData;
 use MichaelRubel\StripeIntegration\DataTransferObjects\StripeChargeData;
 use MichaelRubel\StripeIntegration\Decorators\StripePaymentAmount;
@@ -131,11 +131,11 @@ class StripePaymentProvider implements PaymentProviderContract
     /**
      * Create a payment intent.
      *
-     * @param  PaymentIntentData  $data
+     * @param  PaymentIntentCreationData  $data
      *
      * @return PaymentIntent
      */
-    public function createPaymentIntent(PaymentIntentData $data): PaymentIntent
+    public function createPaymentIntent(PaymentIntentCreationData $data): PaymentIntent
     {
         return call($this->stripeClient->paymentIntents)->create(
             collect([
@@ -231,7 +231,7 @@ class StripePaymentProvider implements PaymentProviderContract
     public function offsessionCharge(OffsessionChargeData $data): PaymentIntent
     {
         $paymentIntent = $this->createPaymentIntent(
-            new PaymentIntentData(
+            new PaymentIntentCreationData(
                 paymentAmount: $data->payment_amount,
                 model: $data->model
             )
