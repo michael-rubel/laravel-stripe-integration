@@ -42,7 +42,7 @@ class StripePaymentProvider implements PaymentProviderContract
      *
      * @return void
      */
-    public function configureCashierCurrency(Currency $currency): void
+    public function setCashierCurrency(Currency $currency): void
     {
         config([
             'cashier.currency' => $currency->getCode(),

@@ -80,18 +80,18 @@ class StripeCharge implements Action
     {
         $currency = new Currency('USD');
 
-        $this->paymentProvider->configureCashierCurrency($currency);
+        $this->paymentProvider->setCashierCurrency($currency);
 
         $customer = $this->paymentProvider->prepareCustomer(auth()->user());
 
         $paymentMethod = $this->paymentProvider->updatePaymentMethod(auth()->user(), 'payment_method');
 
-        $paymentMethodAttachment = new PaymentMethodAttachmentData(
-            paymentMethod: $paymentMethod,
-            customer: $customer,
-        )
-
-        $this->paymentProvider->attachPaymentMethodToCustomer($paymentMethodAttachment);
+        $this->paymentProvider->attachPaymentMethodToCustomer(
+            new PaymentMethodAttachmentData(
+                paymentMethod: $paymentMethod,
+                customer: $customer,
+            )
+        );
 
         $amount = app(PaymentAmount::class, [
             PaymentAmount::AMOUNT   => 1000,
