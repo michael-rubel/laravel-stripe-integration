@@ -7,13 +7,19 @@ namespace MichaelRubel\StripeIntegration\DataTransferObjects;
 use Illuminate\Database\Eloquent\Model;
 use MichaelRubel\StripeIntegration\Decorators\StripePaymentAmount;
 use Spatie\DataTransferObject\DataTransferObject;
+use Stripe\PaymentIntent;
 
 class PaymentIntentData extends DataTransferObject
 {
     /**
-     * @var Model
+     * @var string|null
      */
-    public Model $model;
+    public ?string $intentId;
+
+    /**
+     * @var PaymentIntent|null
+     */
+    public ?PaymentIntent $paymentIntent;
 
     /**
      * @var StripePaymentAmount|null
@@ -21,9 +27,9 @@ class PaymentIntentData extends DataTransferObject
     public ?StripePaymentAmount $paymentAmount;
 
     /**
-     * @var string|null
+     * @var Model|null
      */
-    public ?string $intentId;
+    public ?Model $model;
 
     /**
      * @var array

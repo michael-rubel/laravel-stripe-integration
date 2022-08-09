@@ -156,7 +156,9 @@ class StripePaymentProviderTest extends TestCase
         $paymentProvider = app(StripePaymentProvider::class);
 
         $confirmedPaymentIntent = $paymentProvider->confirmPaymentIntent(
-            new PaymentIntent('test_id')
+            new PaymentIntentData(
+                paymentIntent: new PaymentIntent('test_id'),
+            )
         );
 
         $this->assertInstanceOf(PaymentIntent::class, $confirmedPaymentIntent);
@@ -183,9 +185,12 @@ class StripePaymentProviderTest extends TestCase
     {
         $paymentProvider = app(StripePaymentProvider::class);
 
-        $updatedPaymentIntent = $paymentProvider->retrievePaymentIntent('test_id', [
-            'description' => 123,
-        ]);
+        $updatedPaymentIntent = $paymentProvider->retrievePaymentIntent(
+            new PaymentIntentData(
+                intentId: 'test_id',
+                params: ['description' => 123],
+            )
+        );
 
         $this->assertInstanceOf(PaymentIntent::class, $updatedPaymentIntent);
     }

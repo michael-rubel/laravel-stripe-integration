@@ -13,9 +13,9 @@ use MichaelRubel\StripeIntegration\DataTransferObjects\OffsessionChargeData;
 use MichaelRubel\StripeIntegration\DataTransferObjects\PaymentIntentData;
 use MichaelRubel\StripeIntegration\DataTransferObjects\PaymentMethodAttachmentData;
 use MichaelRubel\StripeIntegration\DataTransferObjects\StripeChargeData;
-use MichaelRubel\StripeIntegration\Decorators\StripePaymentAmount;
 use MichaelRubel\StripeIntegration\Providers\Contracts\PaymentProviderContract;
 use Money\Currency;
+use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 use Stripe\Customer;
 use Stripe\Exception\ApiErrorException;
 use Stripe\PaymentIntent;
@@ -175,41 +175,28 @@ class StripePaymentProvider implements PaymentProviderContract
     /**
      * Retrieve the payment intent.
      *
-     * @param  string  $intent_id
-     * @param  array  $params
-     * @param  array  $options
+     * @param  PaymentIntentData  $data
      *
      * @return PaymentIntent
-     *
-     * @throws ApiErrorException
      */
-    public function retrievePaymentIntent(string $intent_id, array $params = [], array $options = []): PaymentIntent
+    public function retrievePaymentIntent(PaymentIntentData $data): PaymentIntent
     {
         return call($this->stripeClient->paymentIntents)->retrieve(
-            $intent_id,
-            $params,
-            $options
+            $data->intentId, $data->params, $data->options
         );
     }
 
     /**
      * Confirm the payment intent.
      *
-     * @param  PaymentIntent  $paymentIntent
-     * @param  array  $confirmation_params
-     * @param  array  $confirmation_options
+     * @param  PaymentIntentData  $data
      *
      * @return PaymentIntent
      */
-    public function confirmPaymentIntent(
-        PaymentIntent $paymentIntent,
-        array $confirmation_params = [],
-        array $confirmation_options = []
-    ): PaymentIntent {
+    public function confirmPaymentIntent(PaymentIntentData $data): PaymentIntent
+    {
         return call($this->stripeClient->paymentIntents)->confirm(
-            $paymentIntent->id,
-            $confirmation_params,
-            $confirmation_options
+            $data->paymentIntent->id, $data->params, $data->options
         );
     }
 
@@ -219,25 +206,23 @@ class StripePaymentProvider implements PaymentProviderContract
      * @param  OffsessionChargeData  $data
      *
      * @return PaymentIntent
-     * @throws ApiErrorException
+     * @throws ApiErrorException|UnknownProperties
      */
     public function offsessionCharge(OffsessionChargeData $data): PaymentIntent
     {
-        $paymentIntent = $this->createPaymentIntent(
-            new PaymentIntentData(
-                paymentAmount: $data->payment_amount,
-                model: $data->model
-            )
-        );
+        $paymentIntent = $this->createPaymentIntent(new PaymentIntentData(
+            paymentAmount: $data->payment_amount,
+            model: $data->model
+        ));
 
         $confirmation_params = collect([
             'payment_method' => call($data->model)->defaultPaymentMethod()->id,
         ])->merge($data->confirmation_params)->toArray();
 
-        return $this->confirmPaymentIntent(
-            $paymentIntent,
-            $confirmation_params,
-            $data->confirmation_options
-        );
+        return $this->confirmPaymentIntent(new PaymentIntentData(
+            paymentIntent: $paymentIntent,
+            params: $confirmation_params,
+            options: $data->confirmation_options
+        ));
     }
 }
