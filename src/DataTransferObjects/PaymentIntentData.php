@@ -8,22 +8,27 @@ use Illuminate\Database\Eloquent\Model;
 use MichaelRubel\StripeIntegration\Decorators\StripePaymentAmount;
 use Spatie\DataTransferObject\DataTransferObject;
 
-class PaymentIntentCreationData extends DataTransferObject
+class PaymentIntentData extends DataTransferObject
 {
-    /**
-     * @var StripePaymentAmount
-     */
-    public StripePaymentAmount $paymentAmount;
-
     /**
      * @var Model
      */
     public Model $model;
 
     /**
+     * @var StripePaymentAmount|null
+     */
+    public ?StripePaymentAmount $paymentAmount;
+
+    /**
+     * @var string|null
+     */
+    public ?string $intentId;
+
+    /**
      * @var array
      */
-    public array $params  = [];
+    public array $params = [];
 
     /**
      * @var array

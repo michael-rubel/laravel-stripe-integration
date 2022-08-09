@@ -10,7 +10,7 @@ use Laravel\Cashier\Exceptions\IncompletePayment;
 use Laravel\Cashier\Payment;
 use Laravel\Cashier\PaymentMethod as CashierPaymentMethod;
 use MichaelRubel\StripeIntegration\DataTransferObjects\OffsessionChargeData;
-use MichaelRubel\StripeIntegration\DataTransferObjects\PaymentIntentCreationData;
+use MichaelRubel\StripeIntegration\DataTransferObjects\PaymentIntentData;
 use MichaelRubel\StripeIntegration\DataTransferObjects\PaymentMethodAttachmentData;
 use MichaelRubel\StripeIntegration\DataTransferObjects\StripeChargeData;
 use MichaelRubel\StripeIntegration\Decorators\StripePaymentAmount;
@@ -131,11 +131,11 @@ class StripePaymentProvider implements PaymentProviderContract
     /**
      * Create a payment intent.
      *
-     * @param  PaymentIntentCreationData  $data
+     * @param  PaymentIntentData  $data
      *
      * @return PaymentIntent
      */
-    public function createPaymentIntent(PaymentIntentCreationData $data): PaymentIntent
+    public function createPaymentIntent(PaymentIntentData $data): PaymentIntent
     {
         return call($this->stripeClient->paymentIntents)->create(
             collect([
@@ -155,27 +155,20 @@ class StripePaymentProvider implements PaymentProviderContract
     /**
      * Update the payment intent.
      *
-     * @param  string  $intentId
-     * @param  Model  $model
-     * @param  array  $params
-     * @param  array  $options
+     * @param  PaymentIntentData  $data
      *
      * @return PaymentIntent
      */
-    public function updatePaymentIntent(
-        string $intentId,
-        Model $model,
-        array $params = [],
-        array $options = []
-    ): PaymentIntent {
+    public function updatePaymentIntent(PaymentIntentData $data): PaymentIntent
+    {
         return call($this->stripeClient->paymentIntents)->update(
-            $intentId,
-            collect($params)
-                ->when($model->stripeId(), fn ($params) => $params->merge([
-                    'customer' => $model->stripeId(),
+            $data->intentId,
+            collect($data->params)
+                ->when($data->model->stripeId(), fn ($params) => $params->merge([
+                    'customer' => $data->model->stripeId(),
                 ]))
                 ->toArray(),
-            $options
+            $data->options
         );
     }
 
@@ -231,7 +224,7 @@ class StripePaymentProvider implements PaymentProviderContract
     public function offsessionCharge(OffsessionChargeData $data): PaymentIntent
     {
         $paymentIntent = $this->createPaymentIntent(
-            new PaymentIntentCreationData(
+            new PaymentIntentData(
                 paymentAmount: $data->payment_amount,
                 model: $data->model
             )
