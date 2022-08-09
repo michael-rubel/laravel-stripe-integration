@@ -59,9 +59,9 @@ class StripePaymentProvider implements PaymentProviderContract
      */
     public function setupIntentUsing(Model $model, array $options = []): SetupIntent
     {
-        $options = collect([
-            'usage' => 'off_session',
-        ])->merge($options)->toArray();
+        $options = collect(['usage' => 'off_session'])
+            ->merge($options)
+            ->toArray();
 
         return call($model)->createSetupIntent($options);
     }
