@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MichaelRubel\StripeIntegration\Providers;
 
+use Illuminate\Support\Traits\Conditionable;
 use Illuminate\Support\Traits\Macroable;
 use Laravel\Cashier\Exceptions\IncompletePayment;
 use Laravel\Cashier\Payment;
@@ -28,9 +29,11 @@ class StripePaymentProvider implements PaymentProviderContract
     /**
      * @extendability
      */
-    use Macroable;
+    use Macroable, Conditionable;
 
     /**
+     * @param StripeClient $stripeClient
+     *
      * @return void
      */
     public function __construct(public StripeClient $stripeClient)
