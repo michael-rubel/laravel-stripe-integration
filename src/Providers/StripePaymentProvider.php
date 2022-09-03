@@ -73,13 +73,13 @@ class StripePaymentProvider implements PaymentProviderContract
             model: $data->model,
         ));
 
-        $confirmation_params = collect(['payment_method' => call($data->model)->defaultPaymentMethod()->id])
+        $confirmationParams = collect(['payment_method' => call($data->model)->defaultPaymentMethod()->id])
             ->merge($data->confirmation_params)
             ->toArray();
 
         return $this->confirmPaymentIntent(new PaymentIntentData(
             paymentIntent: $paymentIntent,
-            params: $confirmation_params,
+            params: $confirmationParams,
             options: $data->confirmation_options,
         ));
     }
