@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MichaelRubel\StripeIntegration;
 
-use MichaelRubel\EnhancedContainer\LecServiceProvider;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Stripe\StripeClient;
