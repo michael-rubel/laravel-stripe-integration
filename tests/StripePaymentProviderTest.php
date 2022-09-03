@@ -72,11 +72,11 @@ class StripePaymentProviderTest extends TestCase
     }
 
     /** @test */
-    public function testCansetCashierCurrency()
+    public function testCanSetsetCashierCurrencyAs()
     {
         $paymentProvider = app(StripePaymentProvider::class);
 
-        $paymentProvider->setCashierCurrency(
+        $paymentProvider->setCashierCurrencyAs(
             new Currency('USD')
         );
 
@@ -94,21 +94,21 @@ class StripePaymentProviderTest extends TestCase
     }
 
     /** @test */
-    public function testCanPrepareCustomer()
+    public function testCanMakeCustomerUsing()
     {
         $paymentProvider = app(StripePaymentProvider::class);
 
-        $customer = $paymentProvider->prepareCustomer(new User);
+        $customer = $paymentProvider->makeCustomerUsing(new User);
 
         $this->assertInstanceOf(Customer::class, $customer);
     }
 
     /** @test */
-    public function testCanUpdatePaymentMethod()
+    public function testCanSetPaymentMethodFor()
     {
         $paymentProvider = app(StripePaymentProvider::class);
 
-        $paymentMethod = $paymentProvider->updatePaymentMethod(
+        $paymentMethod = $paymentProvider->setPaymentMethodFor(
             new User,
             new PaymentMethod('test_id')
         );

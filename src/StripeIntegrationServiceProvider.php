@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MichaelRubel\StripeIntegration;
 
-use MichaelRubel\EnhancedContainer\LecServiceProvider;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Stripe\StripeClient;
@@ -32,8 +31,6 @@ class StripeIntegrationServiceProvider extends PackageServiceProvider
      */
     public function packageRegistered(): void
     {
-        $this->app->register(LecServiceProvider::class);
-
         bind(StripeClient::class)->to(fn () => new StripeClient(
             config('stripe-integration.secret', env('STRIPE_SECRET'))
         ));
