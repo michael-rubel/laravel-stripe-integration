@@ -3,19 +3,11 @@
 namespace MichaelRubel\StripeIntegration\Tests;
 
 use Laravel\Cashier\Payment;
-use MichaelRubel\EnhancedContainer\Core\CallProxy;
-use MichaelRubel\StripeIntegration\DataTransferObjects\OffsessionChargeData;
-use MichaelRubel\StripeIntegration\DataTransferObjects\PaymentMethodAttachmentData;
 use MichaelRubel\StripeIntegration\DataTransferObjects\StripeChargeData;
-use MichaelRubel\StripeIntegration\Decorators\Contracts\PaymentAmount;
 use MichaelRubel\StripeIntegration\Decorators\StripePaymentAmount;
-use MichaelRubel\StripeIntegration\Providers\Contracts\PaymentProviderContract;
 use MichaelRubel\StripeIntegration\Providers\StripePaymentProvider;
 use MichaelRubel\StripeIntegration\Tests\Stubs\User;
-use Money\Currency;
 use Stripe\PaymentIntent;
-use Stripe\PaymentMethod;
-use Stripe\Service\PaymentIntentService;
 
 class ConditionableTest extends TestCase
 {

@@ -32,7 +32,7 @@ class StripePaymentProvider implements PaymentProviderContract
     use Macroable, Conditionable;
 
     /**
-     * @param StripeClient $stripeClient
+     * @param  StripeClient  $stripeClient
      *
      * @return void
      */
