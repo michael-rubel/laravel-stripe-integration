@@ -26,9 +26,7 @@ class StripePaymentProvider implements PaymentProviderContract
         ConfiguresCashier;
 
     /**
-     * Macros are allowed for package extendability purposes.
-     *
-     * @trait
+     * @extendability
      */
     use Macroable;
 
