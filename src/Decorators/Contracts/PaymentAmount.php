@@ -9,7 +9,7 @@ use Money\Currency;
 interface PaymentAmount
 {
     /**
-     * Const-strings for input parameters.
+     * Const-strings of an input.
      *
      * @const
      */
@@ -17,14 +17,14 @@ interface PaymentAmount
     public const CURRENCY = 'currency';
 
     /**
-     * Returns the value represented by this object.
+     * Return the value.
      *
      * @return int
      */
     public function getAmount(): int;
 
     /**
-     * Returns the currency of this object.
+     * Return the currency.
      *
      * @return Currency
      */
