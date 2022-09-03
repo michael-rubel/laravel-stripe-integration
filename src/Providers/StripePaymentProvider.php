@@ -30,9 +30,9 @@ class StripePaymentProvider implements PaymentProviderContract
     /**
      * @return void
      */
-    public function __construct(
-        protected StripeClient $stripeClient
-    ) {
+    public function __construct(public StripeClient $stripeClient)
+    {
+        //
     }
 
     /**
