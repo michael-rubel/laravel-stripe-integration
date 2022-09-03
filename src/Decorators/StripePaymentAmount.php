@@ -27,11 +27,11 @@ class StripePaymentAmount implements PaymentAmount
         public int $multiplier = 100
     ) {
         if ($this->multiplier === 0) {
-            throw new \DivisionByZeroError('0 is forbidden.');
+            throw new \DivisionByZeroError('Zero is forbidden.');
         }
 
         if (empty($this->currency)) {
-            throw new \InvalidArgumentException('Currency code should not be empty string.');
+            throw new \InvalidArgumentException('Currency code should not be empty.');
         }
 
         // Configures the payment amount decorator.
