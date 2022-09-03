@@ -34,7 +34,7 @@ class StripeCharge implements Action
      */
     public function handle(): mixed
     {
-        $this->paymentProvider->cashierCurrencyAs(new Currency('USD'));
+        $this->paymentProvider->setCashierCurrencyAs(new Currency('USD'));
 
         $customer = $this->paymentProvider->makeCustomerUsing(auth()->user());
 
@@ -47,21 +47,21 @@ class StripeCharge implements Action
             )
         );
 
-        $amount = app(PaymentAmount::class, [
-            PaymentAmount::AMOUNT   => 1000,
-            PaymentAmount::CURRENCY => $currency->getCode(),
-        ]);
+        $amount = new StripePaymentAmount(
+            amount: 1000,
+            currency: config('cashier.currency'),
+        );
 
         $chargeData = new StripeChargeData(
             model: auth()->user(),
             payment_amount: $amount,
             payment_method: $paymentMethod,
-            options: ['description' => 'Your description.'],
+            options: ['description' => 'Your nice description.'],
         );
 
         $payment = $this->paymentProvider->charge($chargeData);
 
-        // Now you can check $payment->status
+        // you can check $payment->status now
     }
 }
 ```

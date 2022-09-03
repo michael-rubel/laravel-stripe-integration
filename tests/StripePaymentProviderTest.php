@@ -72,11 +72,11 @@ class StripePaymentProviderTest extends TestCase
     }
 
     /** @test */
-    public function testCanSetCashierCurrencyAs()
+    public function testCanSetsetCashierCurrencyAs()
     {
         $paymentProvider = app(StripePaymentProvider::class);
 
-        $paymentProvider->cashierCurrencyAs(
+        $paymentProvider->setCashierCurrencyAs(
             new Currency('USD')
         );
 
