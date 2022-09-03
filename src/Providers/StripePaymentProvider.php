@@ -127,6 +127,32 @@ class StripePaymentProvider implements PaymentProviderContract
     }
 
     /**
+     * Perform an offsession charge.
+     *
+     * @param  OffsessionChargeData  $data
+     *
+     * @return PaymentIntent
+     * @throws ApiErrorException|UnknownProperties
+     */
+    public function offsessionCharge(OffsessionChargeData $data): PaymentIntent
+    {
+        $paymentIntent = $this->createPaymentIntent(new PaymentIntentData(
+            paymentAmount: $data->payment_amount,
+            model: $data->model,
+        ));
+
+        $confirmation_params = collect(['payment_method' => call($data->model)->defaultPaymentMethod()->id])
+            ->merge($data->confirmation_params)
+            ->toArray();
+
+        return $this->confirmPaymentIntent(new PaymentIntentData(
+            paymentIntent: $paymentIntent,
+            params: $confirmation_params,
+            options: $data->confirmation_options,
+        ));
+    }
+
+    /**
      * Create a payment intent.
      *
      * @param  PaymentIntentData  $data
@@ -195,31 +221,5 @@ class StripePaymentProvider implements PaymentProviderContract
         return call($this->stripeClient->paymentIntents)->confirm(
             $data->paymentIntent?->id, $data->params, $data->options
         );
-    }
-
-    /**
-     * Perform an offsession charge.
-     *
-     * @param  OffsessionChargeData  $data
-     *
-     * @return PaymentIntent
-     * @throws ApiErrorException|UnknownProperties
-     */
-    public function offsessionCharge(OffsessionChargeData $data): PaymentIntent
-    {
-        $paymentIntent = $this->createPaymentIntent(new PaymentIntentData(
-            paymentAmount: $data->payment_amount,
-            model: $data->model,
-        ));
-
-        $confirmation_params = collect(['payment_method' => call($data->model)->defaultPaymentMethod()->id])
-            ->merge($data->confirmation_params)
-            ->toArray();
-
-        return $this->confirmPaymentIntent(new PaymentIntentData(
-            paymentIntent: $paymentIntent,
-            params: $confirmation_params,
-            options: $data->confirmation_options,
-        ));
     }
 }
