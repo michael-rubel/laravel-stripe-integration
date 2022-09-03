@@ -19,6 +19,11 @@ use Stripe\Service\PaymentIntentService;
 
 class ConditionableTest extends TestCase
 {
+    /**
+     * @var User
+     */
+    private User $user;
+
     /** @setUp */
     public function setUp(): void
     {
