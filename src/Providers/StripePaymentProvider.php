@@ -59,7 +59,7 @@ class StripePaymentProvider implements PaymentProviderContract
     }
 
     /**
-     * Perform an offsession charge.
+     * Perform off-session charge.
      *
      * @param  OffsessionChargeData  $data
      *
