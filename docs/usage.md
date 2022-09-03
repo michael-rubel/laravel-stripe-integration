@@ -38,9 +38,9 @@ class StripeCharge implements Action
 
         $this->paymentProvider->setCashierCurrency($currency);
 
-        $customer = $this->paymentProvider->prepareCustomer(auth()->user());
+        $customer = $this->paymentProvider->makeCustomerUsing(auth()->user());
 
-        $paymentMethod = $this->paymentProvider->updatePaymentMethod(auth()->user(), 'payment_method');
+        $paymentMethod = $this->paymentProvider->setPaymentMethodFor(auth()->user(), 'payment_method');
 
         $this->paymentProvider->attachPaymentMethodToCustomer(
             new PaymentMethodAttachmentData(

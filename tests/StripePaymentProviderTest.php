@@ -94,21 +94,21 @@ class StripePaymentProviderTest extends TestCase
     }
 
     /** @test */
-    public function testCanPrepareCustomer()
+    public function testCanmakeCustomerUsing()
     {
         $paymentProvider = app(StripePaymentProvider::class);
 
-        $customer = $paymentProvider->prepareCustomer(new User);
+        $customer = $paymentProvider->makeCustomerUsing(new User);
 
         $this->assertInstanceOf(Customer::class, $customer);
     }
 
     /** @test */
-    public function testCanUpdatePaymentMethod()
+    public function testCansetPaymentMethodFor()
     {
         $paymentProvider = app(StripePaymentProvider::class);
 
-        $paymentMethod = $paymentProvider->updatePaymentMethod(
+        $paymentMethod = $paymentProvider->setPaymentMethodFor(
             new User,
             new PaymentMethod('test_id')
         );

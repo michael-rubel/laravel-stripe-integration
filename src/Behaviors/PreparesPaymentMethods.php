@@ -19,7 +19,7 @@ trait PreparesPaymentMethods
      *
      * @return Customer
      */
-    public function prepareCustomer(Model $model): Customer
+    public function makeCustomerUsing(Model $model): Customer
     {
         return call($model)->createOrGetStripeCustomer();
     }
@@ -32,7 +32,7 @@ trait PreparesPaymentMethods
      *
      * @return CashierPaymentMethod
      */
-    public function updatePaymentMethod(Model $model, PaymentMethod|string $paymentMethod): CashierPaymentMethod
+    public function setPaymentMethodFor(Model $model, PaymentMethod|string $paymentMethod): CashierPaymentMethod
     {
         return call($model)->updateDefaultPaymentMethod($paymentMethod);
     }

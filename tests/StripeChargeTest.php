@@ -78,9 +78,9 @@ class StripeChargeTest extends TestCase
 
         $this->paymentProvider = call(PaymentProviderContract::class);
 
-        $customer = $this->paymentProvider->prepareCustomer($this->user);
+        $customer = $this->paymentProvider->makeCustomerUsing($this->user);
 
-        $paymentMethod = $this->paymentProvider->updatePaymentMethod(
+        $paymentMethod = $this->paymentProvider->setPaymentMethodFor(
             $this->user,
             'test_payment_method'
         );
@@ -116,9 +116,9 @@ class StripeChargeTest extends TestCase
 
         $this->paymentProvider = call(PaymentProviderContract::class);
 
-        $customer = $this->paymentProvider->prepareCustomer($this->user);
+        $customer = $this->paymentProvider->makeCustomerUsing($this->user);
 
-        $paymentMethod = $this->paymentProvider->updatePaymentMethod(
+        $paymentMethod = $this->paymentProvider->setPaymentMethodFor(
             $this->user,
             'test_payment_method'
         );
