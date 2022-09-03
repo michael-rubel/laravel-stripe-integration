@@ -15,7 +15,7 @@ trait ConfiguresCashier
      *
      * @return void
      */
-    public function setCashierCurrency(Currency $currency): void
+    public function cashierCurrencyAs(Currency $currency): void
     {
         config([
             'cashier.currency' => $currency->getCode(),

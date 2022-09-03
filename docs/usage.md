@@ -34,9 +34,7 @@ class StripeCharge implements Action
      */
     public function handle(): mixed
     {
-        $currency = new Currency('USD');
-
-        $this->paymentProvider->setCashierCurrency($currency);
+        $this->paymentProvider->cashierCurrencyAs(new Currency('USD'));
 
         $customer = $this->paymentProvider->makeCustomerUsing(auth()->user());
 

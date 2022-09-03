@@ -72,11 +72,11 @@ class StripePaymentProviderTest extends TestCase
     }
 
     /** @test */
-    public function testCansetCashierCurrency()
+    public function testCanSetCashierCurrencyAs()
     {
         $paymentProvider = app(StripePaymentProvider::class);
 
-        $paymentProvider->setCashierCurrency(
+        $paymentProvider->cashierCurrencyAs(
             new Currency('USD')
         );
 
@@ -94,7 +94,7 @@ class StripePaymentProviderTest extends TestCase
     }
 
     /** @test */
-    public function testCanmakeCustomerUsing()
+    public function testCanMakeCustomerUsing()
     {
         $paymentProvider = app(StripePaymentProvider::class);
 
@@ -104,7 +104,7 @@ class StripePaymentProviderTest extends TestCase
     }
 
     /** @test */
-    public function testCansetPaymentMethodFor()
+    public function testCanSetPaymentMethodFor()
     {
         $paymentProvider = app(StripePaymentProvider::class);
 
