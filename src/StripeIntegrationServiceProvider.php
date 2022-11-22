@@ -31,7 +31,7 @@ class StripeIntegrationServiceProvider extends PackageServiceProvider
      */
     public function packageRegistered(): void
     {
-        bind(StripeClient::class)->to(fn () => new StripeClient(
+        $this->app->bind(StripeClient::class, fn () => new StripeClient(
             config('stripe-integration.secret', env('STRIPE_SECRET'))
         ));
     }
