@@ -20,7 +20,7 @@
         "laravel/cashier": "^13.8",
         "spatie/data-transfer-object": "^3.7",
         "spatie/laravel-package-tools": "^1.11",
-        "michael-rubel/laravel-enhanced-container": "^9.0"
+        "michael-rubel/laravel-enhanced-container": "^10.0"
     },
     "require-dev": {
         "brianium/paratest": "^6.3",
