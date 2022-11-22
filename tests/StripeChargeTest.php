@@ -40,8 +40,8 @@ class StripeChargeTest extends TestCase
 
         config(['stripe-integration.secret' => 'sk_test_test']);
 
-        bind(PaymentAmount::class)->to(StripePaymentAmount::class);
-        bind(PaymentProviderContract::class)->singleton(StripePaymentProvider::class);
+        $this->app->bind(PaymentAmount::class, StripePaymentAmount::class);
+        $this->app->singleton(PaymentProviderContract::class, StripePaymentProvider::class);
 
         bind(User::class)->method()->charge(
             fn ($service, $app, $params) => new Payment(
@@ -80,10 +80,7 @@ class StripeChargeTest extends TestCase
 
         $customer = $this->paymentProvider->makeCustomerUsing($this->user);
 
-        $paymentMethod = $this->paymentProvider->setPaymentMethodFor(
-            $this->user,
-            'test_payment_method'
-        );
+        $paymentMethod = $this->paymentProvider->setPaymentMethodFor($this->user, 'test_payment_method');
 
         $this->paymentProvider->attachPaymentMethodToCustomer(
             new PaymentMethodAttachmentData(
@@ -118,10 +115,7 @@ class StripeChargeTest extends TestCase
 
         $customer = $this->paymentProvider->makeCustomerUsing($this->user);
 
-        $paymentMethod = $this->paymentProvider->setPaymentMethodFor(
-            $this->user,
-            'test_payment_method'
-        );
+        $paymentMethod = $this->paymentProvider->setPaymentMethodFor($this->user, 'test_payment_method');
 
         $this->paymentProvider->attachPaymentMethodToCustomer(
             new PaymentMethodAttachmentData(
