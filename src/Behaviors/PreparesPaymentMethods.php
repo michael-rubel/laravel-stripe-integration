@@ -30,9 +30,9 @@ trait PreparesPaymentMethods
      * @param  Model  $model
      * @param  PaymentMethod|string  $paymentMethod
      *
-     * @return CashierPaymentMethod
+     * @return CashierPaymentMethod|null
      */
-    public function setPaymentMethodFor(Model $model, PaymentMethod|string $paymentMethod): CashierPaymentMethod
+    public function setPaymentMethodFor(Model $model, PaymentMethod|string $paymentMethod): ?CashierPaymentMethod
     {
         return call($model)->updateDefaultPaymentMethod($paymentMethod);
     }
