@@ -6,37 +6,16 @@ namespace MichaelRubel\StripeIntegration\DataTransferObjects;
 
 use Illuminate\Database\Eloquent\Model;
 use MichaelRubel\StripeIntegration\Decorators\StripePaymentAmount;
-use Spatie\DataTransferObject\DataTransferObject;
 
-class OffsessionChargeData extends DataTransferObject
+final class OffsessionChargeData
 {
-    /**
-     * @var Model
-     */
-    public Model $model;
-
-    /**
-     * @var StripePaymentAmount
-     */
-    public StripePaymentAmount $payment_amount;
-
-    /**
-     * @var array
-     */
-    public array $intent_params = [];
-
-    /**
-     * @var array
-     */
-    public array $intent_options = [];
-
-    /**
-     * @var array
-     */
-    public array $confirmation_params = [];
-
-    /**
-     * @var array
-     */
-    public array $confirmation_options = [];
+    public function __construct(
+        public readonly Model $model,
+        public readonly StripePaymentAmount $payment_amount,
+        public readonly array $intent_params = [],
+        public readonly array $intent_options = [],
+        public readonly array $confirmation_params = [],
+        public readonly array $confirmation_options = [],
+    ) {
+    }
 }

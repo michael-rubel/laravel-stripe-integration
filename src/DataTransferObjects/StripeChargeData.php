@@ -7,28 +7,14 @@ namespace MichaelRubel\StripeIntegration\DataTransferObjects;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Cashier\PaymentMethod as CashierPaymentMethod;
 use MichaelRubel\StripeIntegration\Decorators\Contracts\PaymentAmount;
-use Spatie\DataTransferObject\DataTransferObject;
 use Stripe\PaymentMethod;
 
-class StripeChargeData extends DataTransferObject
+final class StripeChargeData
 {
-    /**
-     * @var Model
-     */
-    public Model $model;
-
-    /**
-     * @var PaymentAmount
-     */
-    public PaymentAmount $payment_amount;
-
-    /**
-     * @var CashierPaymentMethod|PaymentMethod
-     */
-    public CashierPaymentMethod|PaymentMethod $payment_method;
-
-    /**
-     * @var array
-     */
-    public array $options = [];
+    public function __construct(
+        public readonly Model $model,
+        public readonly PaymentAmount $payment_amount,
+        public readonly CashierPaymentMethod|PaymentMethod $payment_method,
+        public readonly array $options = [],
+    ) {}
 }

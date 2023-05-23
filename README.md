@@ -6,7 +6,7 @@
 
 This package is ready-to-use integration with Stripe.
 
-The package requires PHP `^8.x` and Laravel `^9.0`.
+The package requires PHP `^8.1` and Laravel `^9.0`.
 
 ## #StandWithUkraine
 [![SWUbanner](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-direct.svg)](https://github.com/vshymanskyy/StandWithUkraine/blob/main/docs/README.md)
@@ -20,7 +20,6 @@ The package requires PHP `^8.x` and Laravel `^9.0`.
 The package rely on the following components:
 - [`moneyphp/money`](https://github.com/moneyphp/money)
 - [`laravel/cashier`](https://github.com/laravel/cashier-stripe)
-- [`spatie/data-transfer-object`](https://github.com/spatie/data-transfer-object)
 - [`michael-rubel/laravel-enhanced-container`](https://github.com/michael-rubel/laravel-enhanced-container)
 
 ## Installation

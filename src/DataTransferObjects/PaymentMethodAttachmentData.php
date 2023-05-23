@@ -5,29 +5,16 @@ declare(strict_types=1);
 namespace MichaelRubel\StripeIntegration\DataTransferObjects;
 
 use Laravel\Cashier\PaymentMethod as CashierPaymentMethod;
-use Spatie\DataTransferObject\DataTransferObject;
 use Stripe\Customer;
 use Stripe\PaymentMethod;
 
-class PaymentMethodAttachmentData extends DataTransferObject
+final class PaymentMethodAttachmentData
 {
-    /**
-     * @var PaymentMethod|CashierPaymentMethod
-     */
-    public PaymentMethod|CashierPaymentMethod $paymentMethod;
-
-    /**
-     * @var Customer
-     */
-    public Customer $customer;
-
-    /**
-     * @var array
-     */
-    public array $params = [];
-
-    /**
-     * @var array
-     */
-    public array $options = [];
+    public function __construct(
+        public PaymentMethod|CashierPaymentMethod $paymentMethod,
+        public Customer $customer,
+        public array $params = [],
+        public array $options = [],
+    ) {
+    }
 }
