@@ -37,16 +37,18 @@ trait ManagesPaymentIntents
      */
     public function createPaymentIntent(PaymentIntentData $data): PaymentIntent
     {
-        $intentParams = collect([
+        $initialParams = [
             'amount'               => $data->paymentAmount?->getAmount(),
             'currency'             => $data->paymentAmount?->getCurrency()->getCode(),
             'payment_method_types' => ['card'],
-        ])
-        ->when($data->model?->stripeId(), fn ($params) => $params->merge([
-            'customer' => $data->model?->stripeId(),
-        ]))
-        ->merge($data->params)
-        ->toArray();
+        ];
+
+        $intentParams = collect($initialParams)
+            ->when($data->model?->stripeId(), fn ($params) => $params->merge([
+                'customer' => $data->model?->stripeId(),
+            ]))
+            ->merge($data->params)
+            ->toArray();
 
         return call($this->stripeClient->paymentIntents)->create($intentParams, $data->options);
     }

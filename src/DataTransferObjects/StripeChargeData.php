@@ -16,5 +16,6 @@ final class StripeChargeData
         public readonly PaymentAmount $payment_amount,
         public readonly CashierPaymentMethod|PaymentMethod $payment_method,
         public readonly array $options = [],
-    ) {}
+    ) {
+    }
 }

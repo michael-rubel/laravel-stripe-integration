@@ -15,7 +15,6 @@ use MichaelRubel\StripeIntegration\DataTransferObjects\OffsessionChargeData;
 use MichaelRubel\StripeIntegration\DataTransferObjects\PaymentIntentData;
 use MichaelRubel\StripeIntegration\DataTransferObjects\StripeChargeData;
 use MichaelRubel\StripeIntegration\Providers\Contracts\PaymentProviderContract;
-use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 use Stripe\Exception\ApiErrorException;
 use Stripe\PaymentIntent;
 use Stripe\StripeClient;
@@ -64,7 +63,7 @@ class StripePaymentProvider implements PaymentProviderContract
      * @param  OffsessionChargeData  $data
      *
      * @return PaymentIntent
-     * @throws ApiErrorException|UnknownProperties
+     * @throws ApiErrorException
      */
     public function offsessionCharge(OffsessionChargeData $data): PaymentIntent
     {
