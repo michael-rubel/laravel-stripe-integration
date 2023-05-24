@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MichaelRubel\StripeIntegration\Providers;
+namespace MichaelRubel\StripeIntegration;
 
 use Illuminate\Support\Traits\Conditionable;
 use Illuminate\Support\Traits\Macroable;
@@ -14,12 +14,11 @@ use MichaelRubel\StripeIntegration\Behaviors\PreparesPaymentMethods;
 use MichaelRubel\StripeIntegration\DataTransferObjects\OffsessionChargeData;
 use MichaelRubel\StripeIntegration\DataTransferObjects\PaymentIntentData;
 use MichaelRubel\StripeIntegration\DataTransferObjects\StripeChargeData;
-use MichaelRubel\StripeIntegration\Providers\Contracts\PaymentProviderContract;
 use Stripe\Exception\ApiErrorException;
 use Stripe\PaymentIntent;
 use Stripe\StripeClient;
 
-class StripePaymentProvider implements PaymentProviderContract
+class StripePaymentProvider
 {
     use PreparesPaymentMethods,
         ManagesPaymentIntents,

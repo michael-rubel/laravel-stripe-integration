@@ -7,7 +7,7 @@ use MichaelRubel\EnhancedContainer\Call;
 use MichaelRubel\StripeIntegration\DataTransferObjects\PaymentIntentData;
 use MichaelRubel\StripeIntegration\DataTransferObjects\PaymentMethodAttachmentData;
 use MichaelRubel\StripeIntegration\Decorators\StripePaymentAmount;
-use MichaelRubel\StripeIntegration\Providers\StripePaymentProvider;
+use MichaelRubel\StripeIntegration\StripePaymentProvider;
 use MichaelRubel\StripeIntegration\Tests\Stubs\User;
 use Money\Currency;
 use Stripe\Customer;

@@ -5,7 +5,7 @@ namespace MichaelRubel\StripeIntegration\Tests;
 use Laravel\Cashier\Payment;
 use MichaelRubel\StripeIntegration\DataTransferObjects\StripeChargeData;
 use MichaelRubel\StripeIntegration\Decorators\StripePaymentAmount;
-use MichaelRubel\StripeIntegration\Providers\StripePaymentProvider;
+use MichaelRubel\StripeIntegration\StripePaymentProvider;
 use MichaelRubel\StripeIntegration\Tests\Stubs\User;
 use Stripe\PaymentIntent;
 

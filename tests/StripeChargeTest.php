@@ -10,7 +10,7 @@ use MichaelRubel\StripeIntegration\DataTransferObjects\StripeChargeData;
 use MichaelRubel\StripeIntegration\Decorators\Contracts\PaymentAmount;
 use MichaelRubel\StripeIntegration\Decorators\StripePaymentAmount;
 use MichaelRubel\StripeIntegration\Providers\Contracts\PaymentProviderContract;
-use MichaelRubel\StripeIntegration\Providers\StripePaymentProvider;
+use MichaelRubel\StripeIntegration\StripePaymentProvider;
 use MichaelRubel\StripeIntegration\Tests\Stubs\User;
 use Money\Currency;
 use Stripe\PaymentIntent;
