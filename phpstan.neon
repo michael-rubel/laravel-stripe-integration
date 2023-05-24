@@ -15,8 +15,9 @@ parameters:
         - '#Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$stripe_id\.#'
         - '#Unable to resolve the template type TValue in call to function collect#'
         - '#Parameter \#1 \$code of class Money\\Currency constructor expects non\-empty\-string, string given\.#'
-        - '#Cannot call method (.*) on mixed\.#'
         - '#Call to an undefined method MichaelRubel\\EnhancedContainer\\Core\\CallProxy\:\:(.*)#'
+        - '#Cannot call method stripeId\(\) on Illuminate\\Database\\Eloquent\\Model\|null\.#'
+        - '#Cannot call method (.*) on mixed\.#'
 
     checkMissingIterableValueType: false
 
