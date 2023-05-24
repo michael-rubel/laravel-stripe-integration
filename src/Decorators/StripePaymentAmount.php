@@ -68,9 +68,7 @@ class StripePaymentAmount implements PaymentAmount
      */
     public function toPaymentSystemUnits(): int
     {
-        return (int) (
-            (string) ($this->amount * $this->multiplier)
-        );
+        return (int) ($this->amount * $this->multiplier);
     }
 
     /**
@@ -80,9 +78,7 @@ class StripePaymentAmount implements PaymentAmount
      */
     public function fromPaymentSystemUnits(): float
     {
-        return (float) (
-            (int) $this->money->getAmount() / $this->multiplier
-        );
+        return $this->money->getAmount() / $this->multiplier;
     }
 
     /**

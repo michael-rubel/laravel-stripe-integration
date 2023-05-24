@@ -34,11 +34,21 @@ class AmountDecoratorTest extends TestCase
     /** @test */
     public function testCanConvertToSmallestCommonCurrencyUnit()
     {
-        $decorator = new StripePaymentAmount(1005.50, 'pln');
-
+        $decorator = new StripePaymentAmount(1005, 'pln');
         $converted = $decorator->toPaymentSystemUnits();
+        $this->assertSame(100500, $converted);
 
+        $decorator = new StripePaymentAmount(1005.50, 'pln');
+        $converted = $decorator->toPaymentSystemUnits();
         $this->assertSame(100550, $converted);
+
+        $decorator = new StripePaymentAmount('1005.550', 'pln');
+        $converted = $decorator->toPaymentSystemUnits();
+        $this->assertSame(100555, $converted);
+
+        $decorator = new StripePaymentAmount('153000.777', 'pln');
+        $converted = $decorator->toPaymentSystemUnits();
+        $this->assertSame(15300077, $converted);
     }
 
     /** @test */
