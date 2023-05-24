@@ -45,9 +45,9 @@ trait ManagesPaymentIntents
         ];
 
         $intentParams = collect($initialParams)
-            ->when($data->model?->stripeId(), fn ($params) => $params->merge([
-                'customer' => $data->model->stripeId(),
-            ]))
+            ->when($data->model?->stripeId(), function (Collection $params) use ($data) {
+                return $params->merge(['customer' => $data->model->stripeId()]);
+            })
             ->merge($data->params)
             ->toArray();
 
