@@ -9,7 +9,6 @@ use MichaelRubel\StripeIntegration\DataTransferObjects\PaymentMethodAttachmentDa
 use MichaelRubel\StripeIntegration\DataTransferObjects\StripeChargeData;
 use MichaelRubel\StripeIntegration\Decorators\Contracts\PaymentAmount;
 use MichaelRubel\StripeIntegration\Decorators\StripePaymentAmount;
-use MichaelRubel\StripeIntegration\Providers\Contracts\PaymentProviderContract;
 use MichaelRubel\StripeIntegration\StripePaymentProvider;
 use MichaelRubel\StripeIntegration\Tests\Stubs\User;
 use Money\Currency;
@@ -41,7 +40,6 @@ class StripeChargeTest extends TestCase
         config(['stripe-integration.secret' => 'sk_test_test']);
 
         $this->app->bind(PaymentAmount::class, StripePaymentAmount::class);
-        $this->app->singleton(PaymentProviderContract::class, StripePaymentProvider::class);
 
         bind(User::class)->method()->charge(
             fn ($service, $app, $params) => new Payment(
@@ -62,8 +60,9 @@ class StripeChargeTest extends TestCase
         bind(PaymentIntentService::class)
             ->method()
             ->confirm(
-                fn () => tap(new PaymentIntent('test_id'), function ($intent) {
+                fn ($service, $app, $params) => tap(new PaymentIntent('test_id'), function ($intent) use ($params) {
                     $this->offsessionCharge()->each(fn ($value, $key) => $intent->offsetSet($key, $value));
+                    $intent->offsetSet('payment_method', $params['params']['payment_method']);
                 })
             );
     }
@@ -76,7 +75,7 @@ class StripeChargeTest extends TestCase
             PaymentAmount::CURRENCY => new Currency('USD'),
         ]);
 
-        $this->paymentProvider = call(PaymentProviderContract::class);
+        $this->paymentProvider = call(StripePaymentProvider::class);
 
         $customer = $this->paymentProvider->makeCustomerUsing($this->user);
 
@@ -111,7 +110,7 @@ class StripeChargeTest extends TestCase
             PaymentAmount::CURRENCY => new Currency('USD'),
         ]);
 
-        $this->paymentProvider = call(PaymentProviderContract::class);
+        $this->paymentProvider = call(StripePaymentProvider::class);
 
         $customer = $this->paymentProvider->makeCustomerUsing($this->user);
 
@@ -132,6 +131,7 @@ class StripeChargeTest extends TestCase
 
         $payment = $this->paymentProvider->offsessionCharge($chargeData);
 
-        $this->assertStringContainsString('succeeded', $payment->status);
+        $this->assertSame('succeeded', $payment->status);
+        $this->assertSame('test_id', $payment->payment_method);
     }
 }
