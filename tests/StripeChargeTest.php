@@ -81,7 +81,7 @@ class StripeChargeTest extends TestCase
 
         $paymentMethod = $this->paymentProvider->setPaymentMethodFor($this->user, 'test_payment_method');
 
-        $this->paymentProvider->attachPaymentMethodToCustomer(
+        $paymentMethod = $this->paymentProvider->attachPaymentMethodToCustomer(
             new PaymentMethodAttachmentData(
                 paymentMethod: $paymentMethod,
                 customer: $customer,
@@ -97,6 +97,7 @@ class StripeChargeTest extends TestCase
 
         $payment = $this->paymentProvider->charge($chargeData);
 
+        $this->assertSame('test_id', $paymentMethod->customer);
         $this->assertStringContainsString('succeeded', $payment->status);
         $this->assertStringContainsString('Test Stripe Charge Description', $payment->description);
         $this->assertEquals($cost->getAmount(), $payment->amount);

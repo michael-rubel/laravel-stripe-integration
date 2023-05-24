@@ -31,7 +31,12 @@ class TestCase extends Orchestra
 
         bind(PaymentMethodService::class)
             ->method()
-            ->attach(fn () => new PaymentMethod('test_id'));
+            ->attach(function ($service, $app, $params) {
+                $intent = new PaymentMethod('test_id');
+                $intent->offsetSet('customer', $params['params']['customer']);
+
+                return $intent;
+            });
     }
 
     protected function getPackageProviders($app): array
