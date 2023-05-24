@@ -97,7 +97,7 @@ trait ManagesPaymentIntents
     public function confirmPaymentIntent(PaymentIntentData $data): PaymentIntent
     {
         return call($this->stripeClient->paymentIntents)->confirm(
-            $data->paymentIntent?->id ?? $data->intentId, $data->params, $data->options,
+            $data->paymentIntent->id ?? $data->intentId, $data->params, $data->options,
         );
     }
 }

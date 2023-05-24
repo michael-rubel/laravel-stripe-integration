@@ -32,7 +32,7 @@ class StripePaymentProviderTest extends TestCase
 
         bind(PaymentIntentService::class)
             ->method()
-            ->confirm(fn () => new PaymentIntent('test_id'));
+            ->confirm(fn ($service, $app, $params) => new PaymentIntent($params['id']));
 
         bind(PaymentIntentService::class)
             ->method()
@@ -156,14 +156,16 @@ class StripePaymentProviderTest extends TestCase
         $paymentProvider = app(StripePaymentProvider::class);
 
         $confirmedPaymentIntent = $paymentProvider->confirmPaymentIntent(
-            new PaymentIntentData(paymentIntent: new PaymentIntent('test_id'))
+            new PaymentIntentData(intentId: 'diff_id', paymentIntent: new PaymentIntent('test_id'))
         );
         $this->assertInstanceOf(PaymentIntent::class, $confirmedPaymentIntent);
+        $this->assertSame('test_id', $confirmedPaymentIntent->id);
 
         $confirmedPaymentIntent = $paymentProvider->confirmPaymentIntent(
-            new PaymentIntentData(intentId: (new PaymentIntent('test_id'))->id)
+            new PaymentIntentData(intentId: 'diff_id')
         );
         $this->assertInstanceOf(PaymentIntent::class, $confirmedPaymentIntent);
+        $this->assertSame('diff_id', $confirmedPaymentIntent->id);
     }
 
     /** @test */
