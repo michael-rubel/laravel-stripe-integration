@@ -1,3 +1,5 @@
+![Stripe Charge](https://github.com/michael-rubel/laravel-stripe-integration/assets/37669560/f1767ad2-64ec-414b-9fcb-51c6806765c7)
+
 # Laravel Stripe Integration
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/michael-rubel/laravel-stripe-integration.svg?style=flat-square&logo=packagist)](https://packagist.org/packages/michael-rubel/laravel-stripe-integration)
 [![Code Quality](https://img.shields.io/scrutinizer/quality/g/michael-rubel/laravel-stripe-integration.svg?style=flat-square&logo=scrutinizer)](https://scrutinizer-ci.com/g/michael-rubel/laravel-stripe-integration/?branch=main)
