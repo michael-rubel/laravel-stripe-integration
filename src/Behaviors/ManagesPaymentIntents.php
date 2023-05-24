@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MichaelRubel\StripeIntegration\Behaviors;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use MichaelRubel\StripeIntegration\DataTransferObjects\PaymentIntentData;
 use Stripe\PaymentIntent;
 use Stripe\SetupIntent;
@@ -45,7 +46,7 @@ trait ManagesPaymentIntents
 
         $intentParams = collect($initialParams)
             ->when($data->model?->stripeId(), fn ($params) => $params->merge([
-                'customer' => $data->model?->stripeId(),
+                'customer' => $data->model->stripeId(),
             ]))
             ->merge($data->params)
             ->toArray();
@@ -63,9 +64,9 @@ trait ManagesPaymentIntents
     public function updatePaymentIntent(PaymentIntentData $data): PaymentIntent
     {
         $updateIntentParams = collect($data->params)
-            ->when($data->model?->stripeId(), fn ($params) => $params->merge([
-                'customer' => $data->model?->stripeId(),
-            ]))
+            ->when($data->model?->stripeId(), function (Collection $params) use ($data) {
+                return $params->merge(['customer' => $data->model->stripeId()]);
+            })
             ->toArray();
 
         return call($this->stripeClient->paymentIntents)->update(

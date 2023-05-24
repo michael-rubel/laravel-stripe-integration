@@ -26,21 +26,23 @@ class StripePaymentProviderTest extends TestCase
     {
         parent::setUp();
 
-        bind(PaymentIntentService::class)
-            ->method()
-            ->create(fn () => new PaymentIntent('test_id'));
+        $mapPaymentIntentParams = function ($service, $app, $params) {
+            $intent = new PaymentIntent($params['id'] ?? 'test_id');
 
-        bind(PaymentIntentService::class)
-            ->method()
-            ->confirm(fn ($service, $app, $params) => new PaymentIntent($params['id']));
+            collect($params)->collapse()->each(function ($value, $key) use ($intent) {
+                $intent->offsetSet($key, $value);
+            });
 
-        bind(PaymentIntentService::class)
-            ->method()
-            ->update(fn () => new PaymentIntent('test_id'));
+            return $intent;
+        };
 
-        bind(PaymentIntentService::class)
-            ->method()
-            ->retrieve(fn () => new PaymentIntent('test_id'));
+        $methods = ['create', 'update', 'confirm', 'retrieve'];
+
+        collect($methods)->each(
+            fn ($method) => bind(PaymentIntentService::class)
+                ->method()
+                ->{$method}($mapPaymentIntentParams)
+        );
     }
 
     /** @test */
@@ -91,6 +93,7 @@ class StripePaymentProviderTest extends TestCase
         $intent = $paymentProvider->setupIntentUsing(new User);
 
         $this->assertInstanceOf(SetupIntent::class, $intent);
+        $this->assertSame('off_session', $intent->usage);
     }
 
     /** @test */
@@ -134,10 +137,6 @@ class StripePaymentProviderTest extends TestCase
     /** @test */
     public function testCanCreatePaymentIntent()
     {
-        bind(PaymentIntentService::class)
-            ->method()
-            ->create(fn () => new PaymentIntent('test_id'));
-
         $paymentProvider = app(StripePaymentProvider::class);
 
         $paymentIntent = $paymentProvider->createPaymentIntent(
@@ -148,6 +147,35 @@ class StripePaymentProviderTest extends TestCase
         );
 
         $this->assertInstanceOf(PaymentIntent::class, $paymentIntent);
+        $this->assertSame('test', $paymentIntent->customer);
+        $this->assertSame(10000, $paymentIntent->amount);
+        $this->assertSame('PLN', $paymentIntent->currency);
+        $this->assertSame(['card'], $paymentIntent->payment_method_types);
+
+        $paymentIntent = $paymentProvider->createPaymentIntent(new PaymentIntentData);
+
+        $this->assertInstanceOf(PaymentIntent::class, $paymentIntent);
+    }
+
+    /** @test */
+    public function testCanUpdatePaymentIntent()
+    {
+        $paymentProvider = app(StripePaymentProvider::class);
+
+        $updatedPaymentIntent = $paymentProvider->updatePaymentIntent(
+            new PaymentIntentData(
+                intentId: 'test_id',
+                model: new User(['stripe_id' => 'test']),
+                params: ['description' => 123],
+            )
+        );
+
+        $this->assertInstanceOf(PaymentIntent::class, $updatedPaymentIntent);
+        $this->assertSame('test', $updatedPaymentIntent->customer);
+
+        $updatedPaymentIntent = $paymentProvider->updatePaymentIntent(new PaymentIntentData);
+
+        $this->assertInstanceOf(PaymentIntent::class, $updatedPaymentIntent);
     }
 
     /** @test */
@@ -166,22 +194,6 @@ class StripePaymentProviderTest extends TestCase
         );
         $this->assertInstanceOf(PaymentIntent::class, $confirmedPaymentIntent);
         $this->assertSame('diff_id', $confirmedPaymentIntent->id);
-    }
-
-    /** @test */
-    public function testCanUpdatePaymentIntent()
-    {
-        $paymentProvider = app(StripePaymentProvider::class);
-
-        $updatedPaymentIntent = $paymentProvider->updatePaymentIntent(
-            new PaymentIntentData(
-                intentId: 'test_id',
-                model: new User(['stripe_id' => 'test']),
-                params: ['description' => 123],
-            )
-        );
-
-        $this->assertInstanceOf(PaymentIntent::class, $updatedPaymentIntent);
     }
 
     /** @test */

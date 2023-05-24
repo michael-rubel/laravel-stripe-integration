@@ -19,7 +19,15 @@ class TestCase extends Orchestra
         parent::setUp();
 
         // Set up mocks.
-        bind(User::class)->method()->createSetupIntent(fn () => new SetupIntent);
+        bind(User::class)->method()->createSetupIntent(function ($service, $app, $params) {
+            $intent = new SetupIntent;
+
+            collect($params)->collapse()->each(function ($value, $key) use ($intent) {
+                $intent->offsetSet($key, $value);
+            });
+
+            return $intent;
+        });
         bind(User::class)->method()->createOrGetStripeCustomer(fn () => new Customer('test_id'));
 
         $paymentMethod = new PaymentMethod('test_id');
@@ -33,7 +41,10 @@ class TestCase extends Orchestra
             ->method()
             ->attach(function ($service, $app, $params) {
                 $intent = new PaymentMethod('test_id');
-                $intent->offsetSet('customer', $params['params']['customer']);
+
+                collect($params['params'])->each(function ($value, $key) use ($intent) {
+                    $intent->offsetSet($key, $value);
+                });
 
                 return $intent;
             });
