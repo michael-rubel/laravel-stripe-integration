@@ -7,8 +7,8 @@
 | Don't copy & paste the code below. It's only an example flow
 | definition. You should change the code based on your needs.
 |
-| If you wonder what is the `CallProxy`, it is used for method binding,
-| i.e. you can use this for method mocking through the Service Container.
+| If you wonder what is the `CallProxy`, it is a method binding mechanism,
+| i.e. you can use this to mock methods through the Service Container.
 | https://github.com/michael-rubel/laravel-enhanced-container#method-binding
 */
 
