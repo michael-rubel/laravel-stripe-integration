@@ -35,7 +35,7 @@ php artisan vendor:publish --tag="stripe-integration-config"
 ```
 
 ## Useful classes
-- [`StripePaymentProvider`](https://github.com/michael-rubel/laravel-stripe-integration/blob/main/src/StripePaymentProvider.php)
+- [`StripePaymentProvider`](https://github.com/michael-rubel/laravel-stripe-integration/blob/main/src/Providers/StripePaymentProvider.php)
 - [`StripePaymentAmount`](https://github.com/michael-rubel/laravel-stripe-integration/blob/main/src/Decorators/StripePaymentAmount.php)
 
 

@@ -9,7 +9,8 @@ use MichaelRubel\StripeIntegration\DataTransferObjects\PaymentMethodAttachmentDa
 use MichaelRubel\StripeIntegration\DataTransferObjects\StripeChargeData;
 use MichaelRubel\StripeIntegration\Decorators\Contracts\PaymentAmount;
 use MichaelRubel\StripeIntegration\Decorators\StripePaymentAmount;
-use MichaelRubel\StripeIntegration\StripePaymentProvider;
+use MichaelRubel\StripeIntegration\Providers\Contracts\PaymentProviderContract;
+use MichaelRubel\StripeIntegration\Providers\StripePaymentProvider;
 use MichaelRubel\StripeIntegration\Tests\Stubs\User;
 use Money\Currency;
 use Stripe\PaymentIntent;
@@ -40,6 +41,7 @@ class StripeChargeTest extends TestCase
         config(['stripe-integration.secret' => 'sk_test_test']);
 
         $this->app->bind(PaymentAmount::class, StripePaymentAmount::class);
+        $this->app->singleton(PaymentProviderContract::class, StripePaymentProvider::class);
 
         bind(User::class)->method()->charge(
             fn ($service, $app, $params) => new Payment(
@@ -75,7 +77,7 @@ class StripeChargeTest extends TestCase
             PaymentAmount::CURRENCY => new Currency('USD'),
         ]);
 
-        $this->paymentProvider = call(StripePaymentProvider::class);
+        $this->paymentProvider = call(PaymentProviderContract::class);
 
         $customer = $this->paymentProvider->makeCustomerUsing($this->user);
 
@@ -111,7 +113,7 @@ class StripeChargeTest extends TestCase
             PaymentAmount::CURRENCY => new Currency('USD'),
         ]);
 
-        $this->paymentProvider = call(StripePaymentProvider::class);
+        $this->paymentProvider = call(PaymentProviderContract::class);
 
         $customer = $this->paymentProvider->makeCustomerUsing($this->user);
 
