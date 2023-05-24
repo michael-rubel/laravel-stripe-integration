@@ -5,9 +5,9 @@
 [![Infection](https://img.shields.io/github/actions/workflow/status/michael-rubel/laravel-stripe-integration/infection.yml?branch=main&style=flat-square&label=infection&logo=php)](https://github.com/michael-rubel/laravel-stripe-integration/actions)
 [![Larastan](https://img.shields.io/github/actions/workflow/status/michael-rubel/laravel-stripe-integration/phpstan.yml?branch=main&style=flat-square&label=larastan&logo=laravel)](https://github.com/michael-rubel/laravel-stripe-integration/actions)
 
-This package is ready-to-use integration with Stripe.
+This package is a ready-to-use integration with Stripe.
 
-The package requires PHP `^8.1` and Laravel `^9.0`.
+PHP `^8.1` and Laravel `^9.0` is required to use this package.
 
 ## #StandWithUkraine
 [![SWUbanner](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-direct.svg)](https://github.com/vshymanskyy/StandWithUkraine/blob/main/docs/README.md)
