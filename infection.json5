@@ -9,6 +9,11 @@
             "tests"
         ]
     },
+    "logs": {
+        "text": "infection.log",
+        "html": "infection.html",
+        "github": true
+    },
     "mutators": {
         "@default": true
     }
