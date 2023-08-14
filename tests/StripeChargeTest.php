@@ -137,4 +137,28 @@ class StripeChargeTest extends TestCase
         $this->assertSame('succeeded', $payment->status);
         $this->assertSame('test_id', $payment->payment_method);
     }
+
+    /** @test */
+    public function offsessionChargeWithoutPaymentMethod()
+    {
+        $cost = app(PaymentAmount::class, [
+            PaymentAmount::AMOUNT => 1000,
+            PaymentAmount::CURRENCY => new Currency('USD'),
+        ]);
+
+        $this->paymentProvider = call(PaymentProviderContract::class);
+
+        bind(User::class)
+            ->method()
+            ->defaultPaymentMethod(fn () => null);
+
+        $payment = $this->paymentProvider->offsessionCharge(new OffsessionChargeData(
+            model: $this->user,
+            payment_amount: $cost,
+            intent_params: ['description' => 'Offsession Charge Description'],
+        ));
+
+        $this->assertSame('succeeded', $payment->status);
+        $this->assertNull($payment->payment_method);
+    }
 }
