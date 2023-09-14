@@ -74,12 +74,12 @@ class StripeChargeTest extends TestCase
     /** @test */
     public function basicUsageChargeTest()
     {
-        $cost = app(PaymentAmount::class, [
-            PaymentAmount::AMOUNT => 1000,
-            PaymentAmount::CURRENCY => new Currency('USD'),
-        ]);
+        $cost = new StripePaymentAmount(
+            amount: 1000,
+            currency: 'USD',
+        );
 
-        $this->paymentProvider = call(PaymentProviderContract::class);
+        $this->paymentProvider = call(StripePaymentProvider::class);
 
         $customer = $this->paymentProvider->makeCustomerUsing($this->user);
 
@@ -110,12 +110,12 @@ class StripeChargeTest extends TestCase
     /** @test */
     public function offsessionChargeTest()
     {
-        $cost = app(PaymentAmount::class, [
-            PaymentAmount::AMOUNT => 1000,
-            PaymentAmount::CURRENCY => new Currency('USD'),
-        ]);
+        $cost = new StripePaymentAmount(
+            amount: 1000,
+            currency: 'USD',
+        );
 
-        $this->paymentProvider = call(PaymentProviderContract::class);
+        $this->paymentProvider = call(StripePaymentProvider::class);
 
         $customer = $this->paymentProvider->makeCustomerUsing($this->user);
 
@@ -143,12 +143,12 @@ class StripeChargeTest extends TestCase
     /** @test */
     public function offsessionChargeWithoutPaymentMethod()
     {
-        $cost = app(PaymentAmount::class, [
-            PaymentAmount::AMOUNT => 1000,
-            PaymentAmount::CURRENCY => new Currency('USD'),
-        ]);
+        $cost = new StripePaymentAmount(
+            amount: 1000,
+            currency: 'USD',
+        );
 
-        $this->paymentProvider = call(PaymentProviderContract::class);
+        $this->paymentProvider = call(StripePaymentProvider::class);
 
         bind(User::class)
             ->method()
