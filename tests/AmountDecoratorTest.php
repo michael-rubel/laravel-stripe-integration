@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MichaelRubel\StripeIntegration\Tests;
 
 use MichaelRubel\StripeIntegration\Decorators\StripePaymentAmount;
@@ -42,11 +44,11 @@ class AmountDecoratorTest extends TestCase
         $converted = $decorator->toPaymentSystemUnits();
         $this->assertSame(100550, $converted);
 
-        $decorator = new StripePaymentAmount('1005.550', 'pln');
+        $decorator = new StripePaymentAmount(1005.550, 'pln');
         $converted = $decorator->toPaymentSystemUnits();
         $this->assertSame(100555, $converted);
 
-        $decorator = new StripePaymentAmount('153000.777', 'pln');
+        $decorator = new StripePaymentAmount(153000.777, 'pln');
         $converted = $decorator->toPaymentSystemUnits();
         $this->assertSame(15300077, $converted);
     }
@@ -90,7 +92,7 @@ class AmountDecoratorTest extends TestCase
         $this->assertSame('PLN', $decorator->getCurrency()->getCode());
         $this->assertSame(100, $decorator->multiplier);
 
-        $decorator = new StripePaymentAmount('1005.50', 'GBP');
+        $decorator = new StripePaymentAmount(1005.50, 'GBP');
 
         $this->assertInstanceOf(Money::class, $decorator->money);
         $this->assertSame(100550, $decorator->getAmount());
@@ -98,7 +100,7 @@ class AmountDecoratorTest extends TestCase
         $this->assertSame('GBP', $decorator->getCurrency()->getCode());
         $this->assertSame(100, $decorator->multiplier);
 
-        $decorator = new StripePaymentAmount('1005', 'UAH');
+        $decorator = new StripePaymentAmount(1005, 'UAH');
 
         $this->assertInstanceOf(Money::class, $decorator->money);
         $this->assertSame(100500, $decorator->getAmount());
