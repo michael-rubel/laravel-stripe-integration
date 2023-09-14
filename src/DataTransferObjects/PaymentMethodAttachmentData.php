@@ -11,10 +11,10 @@ use Stripe\PaymentMethod;
 final class PaymentMethodAttachmentData
 {
     public function __construct(
-        public PaymentMethod|CashierPaymentMethod $paymentMethod,
-        public Customer $customer,
-        public array $params = [],
-        public array $options = [],
+        public readonly PaymentMethod|CashierPaymentMethod $paymentMethod,
+        public readonly Customer $customer,
+        public readonly array $params = [],
+        public readonly array $options = [],
     ) {
     }
 }
