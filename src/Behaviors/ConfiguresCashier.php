@@ -9,7 +9,7 @@ use Money\Currency;
 trait ConfiguresCashier
 {
     /**
-     * Set the Cashier currency.
+     * Set the cashier currency.
      *
      * @param  Currency  $currency
      *

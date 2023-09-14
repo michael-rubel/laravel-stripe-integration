@@ -34,9 +34,9 @@ class StripePaymentProvider implements PaymentProviderContract
      *
      * @return void
      */
-    public function __construct(public StripeClient $stripeClient)
-    {
-        //
+    public function __construct(
+        public StripeClient $stripeClient
+    ) {
     }
 
     /**
@@ -57,7 +57,7 @@ class StripePaymentProvider implements PaymentProviderContract
     }
 
     /**
-     * Perform off-session charge.
+     * Perform an "off-session" charge.
      *
      * @param  OffsessionChargeData  $data
      *
