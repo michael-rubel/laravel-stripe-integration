@@ -13,8 +13,8 @@ final class StripeChargeData
 {
     public function __construct(
         public readonly Model $model,
-        public readonly PaymentAmount $payment_amount,
-        public readonly CashierPaymentMethod|PaymentMethod $payment_method,
+        public readonly PaymentAmount $paymentAmount,
+        public readonly CashierPaymentMethod|PaymentMethod $paymentMethod,
         public readonly array $options = [],
     ) {
     }

@@ -11,11 +11,11 @@ final class OffsessionChargeData
 {
     public function __construct(
         public readonly Model $model,
-        public readonly StripePaymentAmount $payment_amount,
-        public readonly array $intent_params = [],
-        public readonly array $intent_options = [],
-        public readonly array $confirmation_params = [],
-        public readonly array $confirmation_options = [],
+        public readonly StripePaymentAmount $paymentAmount,
+        public readonly array $intentParams = [],
+        public readonly array $intentOptions = [],
+        public readonly array $confirmationParams = [],
+        public readonly array $confirmationOptions = [],
     ) {
     }
 }

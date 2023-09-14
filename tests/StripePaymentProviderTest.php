@@ -150,7 +150,7 @@ class StripePaymentProviderTest extends TestCase
         $this->assertSame('test', $paymentIntent->customer);
         $this->assertSame(10000, $paymentIntent->amount);
         $this->assertSame('PLN', $paymentIntent->currency);
-        $this->assertSame(['card'], $paymentIntent->payment_method_types);
+        $this->assertSame(['card'], $paymentIntent->paymentMethod_types);
 
         $paymentIntent = $paymentProvider->createPaymentIntent(new PaymentIntentData);
 
