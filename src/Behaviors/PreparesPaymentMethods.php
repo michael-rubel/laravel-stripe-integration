@@ -25,7 +25,7 @@ trait PreparesPaymentMethods
     }
 
     /**
-     * Update the default payment method.
+     * Update a default payment method.
      *
      * @param  Model  $model
      * @param  PaymentMethod|string  $paymentMethod
