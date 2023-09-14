@@ -20,14 +20,13 @@ use Stripe\StripeClient;
 
 class StripePaymentProvider
 {
-    use PreparesPaymentMethods,
-        ManagesPaymentIntents,
-        ConfiguresCashier;
+    /** @extendability */
+    use Conditionable, Macroable;
 
-    /**
-     * @extendability
-     */
-    use Macroable, Conditionable;
+    /** @behaviors */
+    use ConfiguresCashier,
+        ManagesPaymentIntents,
+        PreparesPaymentMethods;
 
     /**
      * @param  StripeClient  $stripeClient
