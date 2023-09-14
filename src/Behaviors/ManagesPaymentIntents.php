@@ -41,7 +41,7 @@ trait ManagesPaymentIntents
         $initialParams = [
             'amount'               => $data->paymentAmount?->getAmount(),
             'currency'             => $data->paymentAmount?->getCurrency()->getCode(),
-            'paymentMethod_types' => ['card'],
+            'payment_method_types' => ['card'],
         ];
 
         $intentParams = collect($initialParams)
