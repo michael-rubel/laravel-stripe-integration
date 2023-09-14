@@ -7,7 +7,7 @@
 [![Infection](https://img.shields.io/github/actions/workflow/status/michael-rubel/laravel-stripe-integration/infection.yml?branch=main&style=flat-square&label=infection&logo=php)](https://github.com/michael-rubel/laravel-stripe-integration/actions)
 [![Larastan](https://img.shields.io/github/actions/workflow/status/michael-rubel/laravel-stripe-integration/phpstan.yml?branch=main&style=flat-square&label=larastan&logo=laravel)](https://github.com/michael-rubel/laravel-stripe-integration/actions)
 
-This package is a ready-to-use integration with Stripe.
+This package is a ready-to-use integration with Stripe. The package uses `laravel/cashier` package internally.
 
 PHP `^8.1` and Laravel `^9.0` is required to use this package.
 
@@ -15,15 +15,9 @@ PHP `^8.1` and Laravel `^9.0` is required to use this package.
 [![SWUbanner](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-direct.svg)](https://github.com/vshymanskyy/StandWithUkraine/blob/main/docs/README.md)
 
 ### Features supported
-- Basic card charge;
-- "Off-session" charge;
-- Payment intent management.
-
-### Dependencies
-The package rely on the following components:
-- [`moneyphp/money`](https://github.com/moneyphp/money)
-- [`laravel/cashier`](https://github.com/laravel/cashier-stripe)
-- [`michael-rubel/laravel-enhanced-container`](https://github.com/michael-rubel/laravel-enhanced-container)
+- Basic card charge
+- "Off-session" charge
+- Payment intent management
 
 ## Installation
 Install the package using composer:
@@ -36,11 +30,9 @@ Publish the config and fill Stripe keys in `.env`:
 php artisan vendor:publish --tag="stripe-integration-config"
 ```
 
-## Useful classes
+## Main classes
 - [`StripePaymentProvider`](https://github.com/michael-rubel/laravel-stripe-integration/blob/main/src/Providers/StripePaymentProvider.php)
 - [`StripePaymentAmount`](https://github.com/michael-rubel/laravel-stripe-integration/blob/main/src/Decorators/StripePaymentAmount.php)
-
-
 
 [Usage example](https://github.com/michael-rubel/laravel-stripe-integration/blob/main/docs/usage.md)
 
