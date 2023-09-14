@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace MichaelRubel\StripeIntegration\Decorators;
 
 use Illuminate\Support\Str;
-use MichaelRubel\StripeIntegration\Decorators\Contracts\PaymentAmount;
 use Money\Currency;
 use Money\Money;
 
-class StripePaymentAmount implements PaymentAmount
+class StripePaymentAmount
 {
     /**
      * @var Money
