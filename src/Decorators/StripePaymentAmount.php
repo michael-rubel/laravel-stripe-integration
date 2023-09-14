@@ -38,8 +38,8 @@ class StripePaymentAmount implements PaymentAmount
         // Used mainly for converting the amount
         // to payment-system friendly units.
         $this->money = new Money(
-            $this->toPaymentSystemUnits(),
-            new Currency(
+            amount: $this->toPaymentSystemUnits(),
+            currency: new Currency(
                 Str::upper($this->currency)
             )
         );
