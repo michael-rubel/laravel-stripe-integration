@@ -6,7 +6,6 @@ namespace MichaelRubel\StripeIntegration\DataTransferObjects;
 
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Cashier\PaymentMethod as CashierPaymentMethod;
-use MichaelRubel\StripeIntegration\Decorators\Contracts\PaymentAmount;
 use MichaelRubel\StripeIntegration\Decorators\StripePaymentAmount;
 use Stripe\PaymentMethod;
 

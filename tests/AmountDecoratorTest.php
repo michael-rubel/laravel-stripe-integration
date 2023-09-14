@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MichaelRubel\StripeIntegration\Tests;
 
 use MichaelRubel\StripeIntegration\Decorators\StripePaymentAmount;
+use Money\Currency;
 use Money\Money;
 
 class AmountDecoratorTest extends TestCase
@@ -81,7 +82,7 @@ class AmountDecoratorTest extends TestCase
         $this->assertInstanceOf(Money::class, $decorator->money);
         $this->assertSame(109070, $decorator->getAmount());
         $this->assertSame(1090.7, $decorator->amount);
-        $this->assertSame('USD', $decorator->getCurrency()->getCode());
+        $this->assertEquals(new Currency('USD'), $decorator->getCurrency());
         $this->assertSame(100, $decorator->multiplier);
 
         $decorator = new StripePaymentAmount(1005.50, 'PLN');

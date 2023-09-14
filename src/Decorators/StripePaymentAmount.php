@@ -8,6 +8,9 @@ use Illuminate\Support\Str;
 use Money\Currency;
 use Money\Money;
 
+/**
+ * @method Currency getCurrency()
+ */
 class StripePaymentAmount
 {
     /**
@@ -50,14 +53,6 @@ class StripePaymentAmount
     public function getAmount(): int
     {
         return (int) $this->money->getAmount();
-    }
-
-    /**
-     * @return Currency
-     */
-    public function getCurrency(): Currency
-    {
-        return $this->money->getCurrency();
     }
 
     /**
