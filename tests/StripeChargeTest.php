@@ -64,7 +64,7 @@ class StripeChargeTest extends TestCase
             ->confirm(
                 fn ($service, $app, $params) => tap(new PaymentIntent('test_id'), function ($intent) use ($params) {
                     $this->offsessionCharge()->each(fn ($value, $key) => $intent->offsetSet($key, $value));
-                    $intent->offsetSet('payment_method', $params['params']['payment_method']);
+                    $intent->offsetSet('paymentMethod', $params['params']['paymentMethod']);
                 })
             );
     }
@@ -81,7 +81,7 @@ class StripeChargeTest extends TestCase
 
         $customer = $this->paymentProvider->makeCustomerUsing($this->user);
 
-        $paymentMethod = $this->paymentProvider->setPaymentMethodFor($this->user, 'test_payment_method');
+        $paymentMethod = $this->paymentProvider->setPaymentMethodFor($this->user, 'test_paymentMethod');
 
         $paymentMethod = $this->paymentProvider->attachPaymentMethodToCustomer(
             new PaymentMethodAttachmentData(
@@ -92,8 +92,8 @@ class StripeChargeTest extends TestCase
 
         $chargeData = new StripeChargeData(
             model: $this->user,
-            payment_amount: $cost,
-            payment_method: $paymentMethod,
+            paymentAmount: $cost,
+            paymentMethod: $paymentMethod,
             options: ['description' => 'Test Stripe Charge Description'],
         );
 
@@ -117,7 +117,7 @@ class StripeChargeTest extends TestCase
 
         $customer = $this->paymentProvider->makeCustomerUsing($this->user);
 
-        $paymentMethod = $this->paymentProvider->setPaymentMethodFor($this->user, 'test_payment_method');
+        $paymentMethod = $this->paymentProvider->setPaymentMethodFor($this->user, 'test_paymentMethod');
 
         $this->paymentProvider->attachPaymentMethodToCustomer(
             new PaymentMethodAttachmentData(
@@ -128,14 +128,14 @@ class StripeChargeTest extends TestCase
 
         $chargeData = new OffsessionChargeData(
             model: $this->user,
-            payment_amount: $cost,
-            intent_params: ['description' => 'Offsession Charge Description'],
+            paymentAmount: $cost,
+            intentParams: ['description' => 'Offsession Charge Description'],
         );
 
         $payment = $this->paymentProvider->offsessionCharge($chargeData);
 
         $this->assertSame('succeeded', $payment->status);
-        $this->assertSame('test_id', $payment->payment_method);
+        $this->assertSame('test_id', $payment->paymentMethod);
     }
 
     /** @test */
@@ -154,11 +154,11 @@ class StripeChargeTest extends TestCase
 
         $payment = $this->paymentProvider->offsessionCharge(new OffsessionChargeData(
             model: $this->user,
-            payment_amount: $cost,
-            intent_params: ['description' => 'Offsession Charge Description'],
+            paymentAmount: $cost,
+            intentParams: ['description' => 'Offsession Charge Description'],
         ));
 
         $this->assertSame('succeeded', $payment->status);
-        $this->assertNull($payment->payment_method);
+        $this->assertNull($payment->paymentMethod);
     }
 }

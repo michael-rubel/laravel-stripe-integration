@@ -51,8 +51,8 @@ class StripePaymentProvider implements PaymentProviderContract
     public function charge(StripeChargeData $data): Payment
     {
         return call($data->model)->charge(
-            $data->payment_amount->getAmount(),
-            $data->payment_method->id,
+            $data->paymentAmount->getAmount(),
+            $data->paymentMethod->id,
             $data->options,
         );
     }
@@ -68,20 +68,20 @@ class StripePaymentProvider implements PaymentProviderContract
     public function offsessionCharge(OffsessionChargeData $data): PaymentIntent
     {
         $paymentIntent = $this->createPaymentIntent(new PaymentIntentData(
-            paymentAmount: $data->payment_amount,
+            paymentAmount: $data->paymentAmount,
             model: $data->model,
-            params: $data->intent_params,
-            options: $data->intent_options,
+            params: $data->intentParams,
+            options: $data->intentOptions,
         ));
 
-        $confirmationParams = collect(['payment_method' => call($data->model)->defaultPaymentMethod()?->id])
-            ->merge($data->confirmation_params)
+        $confirmationParams = collect(['paymentMethod' => call($data->model)->defaultPaymentMethod()?->id])
+            ->merge($data->confirmationParams)
             ->toArray();
 
         return $this->confirmPaymentIntent(new PaymentIntentData(
             paymentIntent: $paymentIntent,
             params: $confirmationParams,
-            options: $data->confirmation_options,
+            options: $data->confirmationOptions,
         ));
     }
 }

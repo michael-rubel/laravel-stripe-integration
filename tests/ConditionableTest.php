@@ -42,8 +42,8 @@ class ConditionableTest extends TestCase
         $payment = call(StripePaymentProvider::class)->when(true, function ($provider) {
             return $provider->charge(new StripeChargeData(
                 model: $this->user,
-                payment_amount: new StripePaymentAmount(100, 'usd'),
-                payment_method: $provider->setPaymentMethodFor($this->user, 'test_payment_method'),
+                paymentAmount: new StripePaymentAmount(100, 'usd'),
+                paymentMethod: $provider->setPaymentMethodFor($this->user, 'test_paymentMethod'),
                 options: ['description' => 'test'],
             ));
         });
@@ -58,8 +58,8 @@ class ConditionableTest extends TestCase
         $payment = call(StripePaymentProvider::class)->unless(false, function ($provider) {
             return $provider->charge(new StripeChargeData(
                 model: $this->user,
-                payment_amount: new StripePaymentAmount(200, 'usd'),
-                payment_method: $provider->setPaymentMethodFor($this->user, 'test_payment_method'),
+                paymentAmount: new StripePaymentAmount(200, 'usd'),
+                paymentMethod: $provider->setPaymentMethodFor($this->user, 'test_paymentMethod'),
                 options: ['description' => 'test2'],
             ));
         });
