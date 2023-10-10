@@ -72,7 +72,7 @@ class StripePaymentProvider
             options: $data->intentOptions,
         ));
 
-        $confirmationParams = collect(['paymentMethod' => call($data->model)->defaultPaymentMethod()?->id])
+        $confirmationParams = collect(['payment_method' => call($data->model)->defaultPaymentMethod()?->id])
             ->merge($data->confirmationParams)
             ->toArray();
 
