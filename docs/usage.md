@@ -38,7 +38,7 @@ class StripeCharge implements Action
 
         $customer = $this->paymentProvider->makeCustomerUsing(auth()->user());
 
-        $paymentMethod = $this->paymentProvider->setPaymentMethodFor(auth()->user(), 'paymentMethod');
+        $paymentMethod = $this->paymentProvider->setPaymentMethodFor(auth()->user(), 'payment_method');
 
         $this->paymentProvider->attachPaymentMethodToCustomer(
             new PaymentMethodAttachmentData(

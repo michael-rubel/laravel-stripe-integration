@@ -9,9 +9,7 @@ use MichaelRubel\EnhancedContainer\Core\CallProxy;
 use MichaelRubel\StripeIntegration\DataTransferObjects\OffsessionChargeData;
 use MichaelRubel\StripeIntegration\DataTransferObjects\PaymentMethodAttachmentData;
 use MichaelRubel\StripeIntegration\DataTransferObjects\StripeChargeData;
-use MichaelRubel\StripeIntegration\Decorators\Contracts\PaymentAmount;
 use MichaelRubel\StripeIntegration\Decorators\StripePaymentAmount;
-use MichaelRubel\StripeIntegration\Providers\Contracts\PaymentProviderContract;
 use MichaelRubel\StripeIntegration\Providers\StripePaymentProvider;
 use MichaelRubel\StripeIntegration\Tests\Stubs\User;
 use Stripe\PaymentIntent;
@@ -41,9 +39,6 @@ class StripeChargeTest extends TestCase
 
         config(['stripe-integration.secret' => 'sk_test_test']);
 
-        $this->app->bind(PaymentAmount::class, StripePaymentAmount::class);
-        $this->app->singleton(PaymentProviderContract::class, StripePaymentProvider::class);
-
         bind(User::class)->method()->charge(
             fn ($service, $app, $params) => new Payment(
                 tap(new PaymentIntent('test_id'), function ($intent) use ($params) {
@@ -65,7 +60,7 @@ class StripeChargeTest extends TestCase
             ->confirm(
                 fn ($service, $app, $params) => tap(new PaymentIntent('test_id'), function ($intent) use ($params) {
                     $this->offsessionCharge()->each(fn ($value, $key) => $intent->offsetSet($key, $value));
-                    $intent->offsetSet('paymentMethod', $params['params']['paymentMethod']);
+                    $intent->offsetSet('payment_method', $params['params']['payment_method']);
                 })
             );
     }
@@ -118,7 +113,7 @@ class StripeChargeTest extends TestCase
 
         $customer = $this->paymentProvider->makeCustomerUsing($this->user);
 
-        $paymentMethod = $this->paymentProvider->setPaymentMethodFor($this->user, 'test_paymentMethod');
+        $paymentMethod = $this->paymentProvider->setPaymentMethodFor($this->user, 'test_payment_method');
 
         $this->paymentProvider->attachPaymentMethodToCustomer(
             new PaymentMethodAttachmentData(
@@ -136,7 +131,7 @@ class StripeChargeTest extends TestCase
         $payment = $this->paymentProvider->offsessionCharge($chargeData);
 
         $this->assertSame('succeeded', $payment->status);
-        $this->assertSame('test_id', $payment->paymentMethod);
+        $this->assertSame('test_id', $payment->payment_method);
     }
 
     /** @test */
@@ -160,6 +155,6 @@ class StripeChargeTest extends TestCase
         ));
 
         $this->assertSame('succeeded', $payment->status);
-        $this->assertNull($payment->paymentMethod);
+        $this->assertNull($payment->payment_method);
     }
 }

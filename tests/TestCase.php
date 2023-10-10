@@ -69,7 +69,7 @@ class TestCase extends Orchestra
         return collect([
             'amount' => $params['amount'],
             'description' => $params['options']['description'],
-            'paymentMethod' => $params['paymentMethod'],
+            'payment_method' => $params['paymentMethod'],
             'status' => 'succeeded',
         ]);
     }
